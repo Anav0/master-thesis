@@ -34,25 +34,9 @@
 %--------------------------------------
 % Zdefiniowanie parametru klasy
 %--------------------------------------
-\RequirePackage{kvoptions}
-\SetupKeyvalOptions{family=EE-dyplom.cls, prefix=ee}
-\DeclareStringOption[inz]{thesis}
-\ProcessKeyvalOptions*
-
-
-\ifnum\pdfstrcmp{\eethesis}{inz} = 0
-    \newcommand{\locallang}{PL}
-\fi
-\ifnum\pdfstrcmp{\eethesis}{mgr} = 0
-    \newcommand{\locallang}{PL}
-\fi
-\ifnum\pdfstrcmp{\eethesis}{bsc} = 0
-    \newcommand{\locallang}{EN}
-\fi
-\ifnum\pdfstrcmp{\eethesis}{msc} = 0
-    \newcommand{\locallang}{EN}
-\fi
-
+% \RequirePackage{kvoptions}
+% \SetupKeyvalOptions{family=EE-dyplom.cls, prefix=ee}
+% \ProcessKeyvalOptions*
 % ---------------------------------------------
 % Wykaz symboli i skrótów
 % Pakiet musi być wczytany przed mathspec
@@ -61,11 +45,7 @@
 \setglossarysection{section}
 \makeglossaries
 \loadglsentries{glossary}
-\ifnum\pdfstrcmp{\locallang}{PL} = 0
-    \newcommand{\acronymstitle}{Wykaz skrótów i symboli}
-\else
-    \newcommand{\acronymstitle}{List of Abbreviations and Symbols}
-\fi
+\newcommand{\acronymstitle}{Wykaz skrótów i symboli}
 
 % ---------------------------------------------
 % Krój pisma w XeLaTeX
@@ -100,11 +80,7 @@
 % Musi być wczytana na początku
 % ---------------------------------------------
 \RequirePackage{polyglossia}
-\ifnum\pdfstrcmp{\locallang}{PL} = 0
-    \setdefaultlanguage{polish}
-\else
-    \setdefaultlanguage{english}
-\fi
+\setdefaultlanguage{polish}
 \setotherlanguage{polish}
 \setotherlanguage{english}
 \setotherlanguage{latin}
@@ -118,12 +94,7 @@
 %   margines zewnętrzny 20 mm,
 %   marginesy górny i dolny 20 mm
 % ---------------------------------------------
-\RequirePackage[a4paper,
-    includehead,
-    includefoot,
-    inner=25mm,
-    outer=25mm,
-    vmargin=25mm]
+\RequirePackage[a4paper,margin=20mm]
 {geometry}
 % Do debugowania wymiarów
 %\RequirePackage{showframe}
@@ -323,7 +294,22 @@
 }
 
 % ---------------------------------------------
-% Wypełniacze do testowania typografii
+% For changing margin
+% ---------------------------------------------
+\newenvironment{changemargin}[2]{%
+\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#2}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}%
+}%
+\item[]}{\end{list}}
+
+
+% ---------------------------------------------
+% Lorem ipsum
 % ---------------------------------------------
 \RequirePackage{lipsum}
 
@@ -404,13 +390,8 @@
 % ---------------------------------------------
 \RequirePackage{etoolbox}
 \RequirePackage[titletoc]{appendix}
-\ifnum\pdfstrcmp{\locallang}{PL} = 0
-    \newcommand{\appendiceslisttitle}{Spis załączników}
-    \newcommand{\appendixprefix}{Załącznik}
-\else
-    \newcommand{\appendiceslisttitle}{List of Appendices}
-    \newcommand{\appendixprefix}{Appendix}
-\fi
+\newcommand{\appendiceslisttitle}{Spis załączników}
+\newcommand{\appendixprefix}{Załącznik}
 \renewcommand{\appendixname}{\appendixprefix}
 
 % ---------------------------------------------
@@ -471,7 +452,9 @@
 % STRONA TYTUŁOWA
 % Here be dragons...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newcommand{\department}[1]{
+    \newcommand{\@department}{#1}
+}
 \newcommand{\instytut}[1]{
     \newcommand{\@instytut}{#1}
 }
@@ -491,62 +474,48 @@
     \newcommand{\@engtitle}{#1}
 }
 
-\ifnum\pdfstrcmp{\eethesis}{inz} = 0
-    \newcommand{\frontpageheader}{inzhead.png}
-\fi
-\ifnum\pdfstrcmp{\eethesis}{mgr} = 0
-    \newcommand{\frontpageheader}{mgrhead.png}
-\fi
-\ifnum\pdfstrcmp{\eethesis}{bsc} = 0
-    \newcommand{\frontpageheader}{bschead.png}
-\fi
-\ifnum\pdfstrcmp{\eethesis}{msc} = 0
-    \newcommand{\frontpageheader}{mschead.png}
-\fi
-
-\ifnum\pdfstrcmp{\locallang}{PL} = 0
-    \newcommand{\kieruneklocal}{na~kierunku }
-    \newcommand{\specjalnosclocal}{w~specjalności }
-    \newcommand{\titlelocal}{\@title }
-    \newcommand{\albumlocal}{numer~albumu }
-    \newcommand{\promotorlocal}{promotor}
-    \newcommand{\citylocal}{WARSZAWA }
-\fi
-\ifnum\pdfstrcmp{\locallang}{EN} = 0
-    \newcommand{\kieruneklocal}{in~the~field~of~study }
-    \newcommand{\specjalnosclocal}{and~specialisation }
-    \newcommand{\titlelocal}{\@engtitle }
-    \newcommand{\albumlocal}{student record book number }
-    \newcommand{\promotorlocal}{supervisor }
-    \newcommand{\citylocal}{WARSAW }
-\fi
+\newcommand{\worktypelocal}{Praca Magisterska}
+\newcommand{\kieruneklocal}{na~kierunku }
+\newcommand{\specjalnosclocal}{w~specjalności }
+\newcommand{\titlelocal}{\@title }
+\newcommand{\albumlocal}{numer~albumu }
+\newcommand{\promotorlocal}{Praca wykonana pod kierunkiem }
+\newcommand{\citylocal}{OPOLE }
 
 \let\oldmaketitle\maketitle
 \renewcommand{\maketitle}{
     \linespread{1.15}
-
     \thispagestyle{empty}
+
     \begin{center}
-        \includegraphics[width=\textwidth]{PWHead.png}
-        \vskip 3em
-        \@instytut
-        \vskip 3em
-        \includegraphics[width=\linewidth]{\frontpageheader}
-        \vskip 1em
-        \kieruneklocal \@kierunek
-        \vskip .5em
-        \specjalnosclocal \@specjalnosc
-        \vskip 3em
-        \large \titlelocal
-        \vskip 3em
-        \LARGE \@author \\
-        \normalsize
-        \albumlocal \@album
+    \includegraphics[scale=0.35]{PWHead.png}
+    \vskip 2em
+    \LARGE \@department
+    \vskip 0.5em
+    \fontsize{18pt}{18pt} \selectfont \@instytut
+    \vskip 2em
+    \LARGE \worktypelocal
+    \vskip 2em
+    \LARGE \@author \\
+    \vskip 2.5em
+    \begin{flushleft}
+        \LARGE \titlelocal
         \vskip 2em
-        \promotorlocal\\\@promotor
-        \vfill
-        \citylocal \@date
+        \fontsize{17pt}{17pt} \selectfont \@engtitle
+    \end{flushleft}
+    \vfill
+    \begin{flushright}
+        \large \promotorlocal\\\@promotor
+    \end{flushright}
+    \vfill
+    \normalsize \citylocal \@date
     \end{center}
+\newgeometry{
+    includehead,
+    includefoot,
+    inner=2.5cm,
+    outer=2.5cm,
+    vmargin=2.5cm}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -588,7 +557,6 @@
     \thispagestyle{empty}
     \begin{center}
         \textbf{\large\@engtitle}
-
         \textbf{Abstract}
     \end{center}
     \@thesisabstract
@@ -602,40 +570,21 @@
 % Spięcie stron streszczeń we właściwej
 % kolejności w jedno polecenie.
 \newcommand{\abstractpages}{
-    \ifnum\pdfstrcmp{\locallang}{PL} = 0
-        \stronastreszczenia
-        \abstractpage
-    \else
-        \abstractpage
-        \stronastreszczenia
-    \fi
+    \stronastreszczenia
+    \abstractpage
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Oświadczenia o autorstwie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\authorship}{
-    \ifnum\pdfstrcmp{\locallang}{PL} = 0
-        \begin{tikzpicture}[remember picture, overlay]
-            \node [anchor=north west, inner sep=0pt] at (current page.north west)
-            {{\includegraphics[width=\paperwidth]{gfx/oswiadczenie_autora_pracy.pdf}};};
-            \node[anchor=north west, inner sep=0pt] at(-0.8, -.8) {\@author};
-            \node[anchor=north west, inner sep=0pt] at(-0.8, -1.75) {\@album};
-            \node[anchor=north west, inner sep=0pt] at(-0.8, -2.65) {\@kierunek};
-        \end{tikzpicture}
-    \else
-        \begin{tikzpicture}[remember picture, overlay]
-            \node [anchor=north west, inner sep=0pt] at (current page.north west)
-            {{\includegraphics[width=\paperwidth]{gfx/thesis_author_declaration-1.pdf}};};
-            \node[anchor=north west, inner sep=0pt] at(-0.8, -0.9) {\@author};
-            \node[anchor=north west, inner sep=0pt] at(-0.8, -2.33) {\@album};
-            \node[anchor=north west, inner sep=0pt] at(-0.8, -3.65) {\@kierunek};
-        \end{tikzpicture}\clearpage
-        \begin{tikzpicture}[remember picture, overlay]
-            \node [anchor=north west, inner sep=0pt] at (current page.north west)
-            {{\includegraphics[width=\paperwidth]{gfx/thesis_author_declaration-2.pdf}};};
-        \end{tikzpicture}
-    \fi
+    \begin{tikzpicture}[remember picture, overlay]
+        \node [anchor=north west, inner sep=0pt] at (current page.north west)
+        {{\includegraphics[width=\paperwidth]{gfx/oswiadczenie_autora_pracy.pdf}};};
+        \node[anchor=north west, inner sep=0pt] at(-0.8, -.8) {\@author};
+        \node[anchor=north west, inner sep=0pt] at(-0.8, -1.75) {\@album};
+        \node[anchor=north west, inner sep=0pt] at(-0.8, -2.65) {\@kierunek};
+      \end{tikzpicture}
     \cleardoublepage
 }
 
