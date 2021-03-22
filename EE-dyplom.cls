@@ -29,7 +29,7 @@
 
 %\LoadClass[a4paper,11pt,twoside,openright]{report}
 % Alternatywnie: 12 pt
-\LoadClass[a4paper,12pt,twoside,openright]{book}
+\LoadClass[a4paper,12pt,oneside,openright]{book}
 
 %--------------------------------------
 % Zdefiniowanie parametru klasy
@@ -402,7 +402,7 @@
 %\RequirePackage{titlesec}
 %\titleformat{\chapter}[display]
 %  {\fontsize{18pt}{48pt}\selectfont \bfseries}
-%  {\chaptertitlename\ \thechapter}{1em}
+  % {\chaptertitlename\ \thechapter}{1em}
 %  {\fontsize{14pt}{0pt}\selectfont \bfseries}
 %\titleformat{\section}[hang]
 %  {\fontsize{13pt}{18pt}\selectfont \bfseries}
@@ -420,7 +420,7 @@
 \RequirePackage{enumitem}
 \newlength\docparskip
 \setlength{\docparskip}{\parskip}
-\setlist[itemize,1]{nosep,
+\setlist[itemize,2]{nosep,
         label=$\bullet$,    % ustawiony krój ma kwadratowe kropki
 }
 \setlist[itemize,2]{nosep,label=--}
@@ -437,7 +437,7 @@
 % W celu umieszczenia PDF z "Oświadczeniami"
 % ---------------------------------------------
 \RequirePackage{tikz}
-
+\RequirePackage{pdfpages}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -511,11 +511,9 @@
     \normalsize \citylocal \@date
     \end{center}
 \newgeometry{
-    includehead,
-    includefoot,
-    inner=2.5cm,
-    outer=2.5cm,
-    vmargin=2.5cm}
+    inner=20mm,
+    outer=20mm,
+    vmargin=20mm}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -577,16 +575,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Oświadczenia o autorstwie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\authorship}{
-    \begin{tikzpicture}[remember picture, overlay]
-        \node [anchor=north west, inner sep=0pt] at (current page.north west)
-        {{\includegraphics[width=\paperwidth]{gfx/oswiadczenie_autora_pracy.pdf}};};
-        \node[anchor=north west, inner sep=0pt] at(-0.8, -.8) {\@author};
-        \node[anchor=north west, inner sep=0pt] at(-0.8, -1.75) {\@album};
-        \node[anchor=north west, inner sep=0pt] at(-0.8, -2.65) {\@kierunek};
-      \end{tikzpicture}
-    \cleardoublepage
-}
+%\newcommand{\authorship}{
+%    \begin{tikzpicture}[remember picture, overlay]
+%        \node [anchor=north west, inner sep=0pt] at (current page.north west)
+%        {{\includegraphics[width=\paperwidth]{gfx/oswiadczenie_autora_pracy.pdf}};};
+%      \end{tikzpicture}
+%    \cleardoublepage
+%}
+\newcommand{\authorship}{\includepdf[pages=-]{gfx/oswiadczenie_autora_pracy.pdf}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Jedno polecenie - kombajn stron początkowych
@@ -597,7 +593,6 @@
     \pagestyle{empty}
     \maketitle
     \abstractpages
-    \authorship
     \tableofcontents
     \cleardoublepage
     \pagestyle{headings}

@@ -1,4 +1,63 @@
-\chapter{Wstęp}
-\lipsum{2}
-\chapter{2}
+\chapter{Cel i zakres pracy}
+Celem niniejszej pracy jest rozwiązanie problemu wyznaczania szeregu terminów rehabilitacji za pomocą algorytmu symulowanego wyżarzania. Oprócz samego rozwiązania problemu, szczegółowo zostanie opisany wpływ następujących czynników na szybkość działania algorytmu oraz na jakość uzyskiwanych rozwiązań:
+
+\begin{itemize}
+\item Temperatura początkowa
+\item Funkcja wychładzania
+\item Typ funkcji przejścia
+\item Wielkość instancji (ilość wizyt do wyznaczenia)
+\item Wielkość przestrzeni rozwiązań
+\item Ograniczenia twarde
+\item Ograniczenia miękkie
+\end{itemize}
+Po zbadaniu wpływu powyższych czynników na czas działania oraz jakość uzyskanych rozwiązań, różne połączenia parametrów - za wyjątkiem ograniczeń - również zostaną przebadane a wyniki szczegółowo opisane. 
+
+Szczególna uwaga zostanie poświęcona zbadaniu relacji między wielkością instancji problemu a parametrami, dokładniej: czy optymalnie dobrane parametry dla pewnej wielkości instancji dadzą równie dobre rezultaty dla instancji o innej wielkości, oraz innej kompozycji (zawierającej inne typy wizyt).
+
+\chapter{Problem wyznaczania terminów rehabilitacji}
+\section{Istniejące wariacje problemu}
+\section{Możliwe sposoby modelowania problemu}
+\section{Opis wybranego sposobu modelowania}
+
+\chapter{Przedstawienie problemu jako ogólnego problemu optymalizacji}
+\section{Opis instancji problemu}
+\section{Charakterystyka przestrzeni rozwiązań}
+\section{Funkcja oceny rozwiązania}
+\section{Lista ograniczeń twardych}
+\subsection{Ograniczenie ilości wizyt w jednym dniu}
+\subsection{Wizyty nie mogą na siebie nachodzić}
+\subsection{itd itp (nie wiem czy warto je tak wypisywać jako sekcje}
+\section{Lista ograniczeń miękkich}
+\subsection{Preferuj czas podany przez pacjenta}
+\section{Złożoność pamięciowa przyjętego modelu (Może być za dużo roboty)}
+\section{Złożoność obliczeniowa przyjętego modelu (Może być za dużo roboty)}
+
+\chapter{Zastosowane algorytmy metaheurystyczne}
+\section{Symulowane wyżarzanie}
+\subsection{Schemat działania symulowanego wyżarzania}
+\subsection{Ruchy zmieniające rozwiązanie}
+\subsection{Kryteria stopu}
+\subsection{Temperatura początkowa}
+\subsection{Funkcje wychładzania}
+\section{Symulowane wyżarzanie wzbogacone o tabelę Tabu}
+\subsection{Funkcja utrzymania tabu}
+\section{Algorytm genetyczny (optional)}
+\subsection{Populacja początkowa}
+\subsection{Operator krzyżowania}
+\subsection{Operator mutacji}
+
+\addtocontents{toc}{\protect\newpage}
+
+\chapter{Analiza algorytmu symulowanego wyżarzania}
+\section{Opis stałych elementów analizy}
+\subsection{Opis przyjętych instancji problemu}
+\subsection{Opis przyjętej przestrzeni rozwiązań}
+\section{Przeprowadzone badania}
+\subsection{Wpływ temperatury początkowej na jakość rozwiązania}
+\subsection{Wpływ funkcji wychładzania na jakość rozwiązania}
+\subsection{Wpływ funkcji ruchu na jakość rozwiązania}
+\subsection{Wpływ wielkości instancji na jakość rozwiązania}
+\subsection{Jakość rozwiązania uzyskana po wymieszaniu parametrów}
+\subsection{Jakość rozwiązania uzyskana po połączeniu najlepszych parametrów}
+
 \chapter{Podsumowanie}
