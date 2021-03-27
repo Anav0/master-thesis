@@ -14,16 +14,64 @@ Po zbadaniu wpływu powyższych czynników na czas działania oraz jakość uzys
 
 Szczególna uwaga zostanie poświęcona zbadaniu relacji między wielkością instancji problemu a parametrami, dokładniej: czy optymalnie dobrane parametry dla pewnej wielkości instancji dadzą równie dobre rezultaty dla instancji o innej wielkości, oraz innej kompozycji (zawierającej inne typy wizyt).
 
-\chapter{Problem wyznaczania terminów rehabilitacji}
-\section{Istniejące wariacje problemu}
-\section{Możliwe sposoby modelowania problemu}
-\section{Opis wybranego sposobu modelowania}
+\chapter{Wstęp}
+Optymalizacja procesów w placówkach medycznych jest 
+Rozwiązanie problemu wyznaczania terminów rehabilitacji polega na znalezieniu takich bloków
+czasowych (blok trwa 20min), w których mogą zostać umieszczone terminy wykonania zabiegów. Każdy
+pacjent ma listę zabiegów do wykonania (np. 2x bieganie, 3x masaż). 
+
+Dane zebrane przez placówkę rehabilitacyjną pokazują, że średnia ilość wyznaczanych zabiegów dla jednego pacjenta to 80. Zabiegi mogą zostać wykonane tylko w pewnej sali zabiegowej, która znajduje się w danym bloku czasowych i ma swoją ograniczoną pojemność.
+
+Pewne zabiegi wymagają konkretnego odstępu czasowego między sobą np. zabieg
+\emph{laseroterapii} nie może być wykonywany w przeciągu 1h od momentu zakończenia
+wykonania zabiegu \emph{krioterapii}. Taka reguła nie koniecznie może występować w obie
+strony.
+
+Terminy preferowane przez pacjenta, oraz godziny otwarcia danej placówki też
+muszą być uwzględnione w procesie wyznaczania terminów odbycia zabiegów - tak samo
+jak święta czy sytuacje nagłe takie jak zepsucie sprzętu niezbędnego do
+przeprowadzenia danej procedury.
+
+Dostępność terminów jest bardzo płynna i często zdarzają się sytuacje w których
+dany zabieg może być wyznaczony na drugi dzień od momentu otrzymania zgłoszenia, a już kolejny zabieg na liście
+zabiegowej za 4 miesiące. Dlatego też przedział czasowy brany pod uwagę musi być odpowiednio duży (od 6
+miesięcy do roku).
+\vskip 2em \parindent 0em Jak widać po tym, krótkim i niepełnym opisie problem nie jest trywialny. Duża przestrzeń potencjalnych rozwiązań, typów zabiegów oraz ograniczeń - o których więcej w rozdziale \ref{constraints} - sprawia, że problem jest NP trudny.
+
+\chapter{Modelowanie problemu wyznaczania terminów rehabilitacji}
+Ten rozdział przedstawia pewną grupę problemów. Są to problemy,
+które można nazwać problemami harmonogramowania (z ang. scheduling problems).
+Do tej grupy można zaliczyć takie problemy jak: \emph{Job Shop Problem} czy
+\emph{Nurse Scheduling Problem }. Wszystkie problemy, które możemy zaklasyfikować
+jako problemy harmonogramowania, starają się jak najlepiej przypisać pewne
+zadania (np. rehabilitację) do pewnych terminów, uwzględniając przy tym ograniczone zasoby (np. ilość
+sal, czy maszyn).
+
+Opisanie zróżnicowania problemów istniejących w tej grupie, jest ważne w celu pełnego
+zrozumienia, możliwych podejść do rozwiązania problemu wyznaczania
+terminów rehabilitacji i wybraniu najlepszego.
+
+\section{Opis istniejących problemów harmonogramowania}
+\subsection{Job Shop Problem}
+\subsection{Nurse Scheduling Problem \cite{nurseScheduling}}
+\subsection{College Admission Problem (Matching) \cite{matchingUnderPref}}
+Ten problem stara się przypisać rezydentów z listy $R={r_1,r_2,r_3...r_k}$ do szpitali z listy
+$H={h_1,h_2...h_n}$ w taki sposób aby pojemność danego szpitala $c_j$ nie
+została przekroczona, oraz aby szpital do którego zostanie przypisany rezydent był przez niego akceptowalny i vice versa. 
+
+Niestety modelowanie problemu za pomocą matchingu wymaga przypisania do
+siebie elementów dwóch lub więcej zbiorów. Jest to kłopotliwe w problemie wyznaczania
+terminów rehabilitacji. Zbiór zabiegów należałoby połączyć ze zbiorem
+terminów, tylko że zbiór terminów jest bardzo duży, dodatkowo nie jesteśmy w
+stanie określić wartości takiego połączenia między zabiegiem a terminem w
+izolacji od innych dat wykonania innych zabiegów, tych istniejących jak i tych
+obecnie wyznaczanych.
 
 \chapter{Przedstawienie problemu jako ogólnego problemu optymalizacji}
 \section{Opis instancji problemu}
 \section{Charakterystyka przestrzeni rozwiązań}
 \section{Funkcja oceny rozwiązania}
-\section{Lista ograniczeń twardych}
+\section{Lista ograniczeń twardych \label{constraints}}
 \subsection{Ograniczenie ilości wizyt w jednym dniu}
 \subsection{Wizyty nie mogą na siebie nachodzić}
 \subsection{itd itp (nie wiem czy warto je tak wypisywać jako sekcje}
@@ -41,10 +89,10 @@ Szczególna uwaga zostanie poświęcona zbadaniu relacji między wielkością in
 \subsection{Funkcje wychładzania}
 \section{Symulowane wyżarzanie wzbogacone o tabelę Tabu}
 \subsection{Funkcja utrzymania tabu}
-\section{Algorytm genetyczny (optional)}
-\subsection{Populacja początkowa}
-\subsection{Operator krzyżowania}
-\subsection{Operator mutacji}
+%\section{Algorytm genetyczny (optional)}
+%\subsection{Populacja początkowa}
+%\subsection{Operator krzyżowania}
+%\subsection{Operator mutacji}
 
 \addtocontents{toc}{\protect\newpage}
 

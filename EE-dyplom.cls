@@ -575,14 +575,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Oświadczenia o autorstwie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newcommand{\authorship}{
-%    \begin{tikzpicture}[remember picture, overlay]
-%        \node [anchor=north west, inner sep=0pt] at (current page.north west)
-%        {{\includegraphics[width=\paperwidth]{gfx/oswiadczenie_autora_pracy.pdf}};};
-%      \end{tikzpicture}
-%    \cleardoublepage
-%}
-\newcommand{\authorship}{\includepdf[pages=-]{gfx/oswiadczenie_autora_pracy.pdf}}
+\newcommand{\authorship}{
+	\includepdf[pages=-]{gfx/oswiadczenie_autora_pracy.pdf}
+    \cleardoublepage
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Jedno polecenie - kombajn stron początkowych
