@@ -2,22 +2,49 @@
 \instytut{Instytut Informatyki}
 \kierunek{Informatyka}
 \specjalnosc{SPECJALNOŚĆ}
-\title{Wyznaczanie terminów rehabilitacji za pomocą algorytmu symulowanego
-wyżarzania.}
-\engtitle{Using simulated annealing to schedule rehabilitation appointments.}
+\title{Projekt i implementacja algorytmu symulowanego wyżarzania dla problemu
+harmonogramowania zabiegów rehabilitacyjnych}
+\engtitle{Design and implementation of a simulated annealing algorithm for
+scheduling rehabilitation appointments}
 \album{119838}
 \author{Igor Motyka}
 \promotor{dr inż. Sławomira Stemplewskiego}
 \date{2021}
 
-\streszczeniepracy{
-	Streszczenie pracy
-}
-\slowakluczowe{Metaheurystyka, symulowane wyżarzanie, tabu search, problem
-harmonogramowania, optymalizacja procesów}
+\wstep{
+Optymalizacja procesów w placówkach medycznych jest kluczowa, jeśli chcemy
+zredukować koszty operacyjne i tym samym realnie przyczynić się do spadku cen
+usług świadczonych przez daną jednostkę medyczną. Komputerowe harmonogramowanie terminów zabiegów czy dyżurów
+pielęgniarek powoduje redukcję personelu do tej pory odpowiedzialnego za manualne wykonywanie tych czynności.
 
-\thesisabstract{
-	Abstract
+Rozwiązanie problemu wyznaczania terminów rehabilitacji polega na znalezieniu takich bloków
+czasowych w ciągu dnia, w których mogą zostać umieszczone terminy wykonania zabiegów. Każdy
+pacjent ma zleconą przez lekarza listę koniecznych do wykonania zabiegów (np. 2x bieganie, 3x masaż).
+
+Dane zebrane przez placówkę rehabilitacyjną pokazują, że średnia ilość wyznaczanych zabiegów dla jednego pacjenta to 80. Zabiegi mogą zostać wykonane tylko w pewnej sali zabiegowej, która znajduje się w danym bloku czasowych i ma swoją ograniczoną pojemność.
+
+Pewne zabiegi wymagają konkretnego odstępu czasowego między sobą np. zabieg
+\emph{laseroterapii} nie może być wykonywany w przeciągu 1h od momentu zakończenia
+wykonania zabiegu \emph{krioterapii}. Taka reguła nie koniecznie może występować w obie
+strony.
+
+Terminy preferowane przez pacjenta, oraz godziny otwarcia danej placówki też
+muszą być uwzględnione w procesie wyznaczania terminów odbycia zabiegów - tak samo
+jak święta czy sytuacje nagłe takie jak zepsucie sprzętu niezbędnego do
+przeprowadzenia danej procedury.
+
+Dostępność terminów jest bardzo płynna i często zdarzają się sytuacje w których
+dany zabieg może być wyznaczony na drugi dzień od momentu otrzymania zgłoszenia, a już kolejny zabieg na liście
+zabiegów zleconych przez lekarza za 4 miesiące. Dlatego też przedział czasowy brany pod uwagę musi być odpowiednio duży (od 6
+miesięcy do nawet roku).
+\vskip 2em \parindent 0em
+Jak widać po tym, krótkim i niepełnym opisie problem nie jest trywialny. Duża przestrzeń potencjalnych rozwiązań, typów zabiegów oraz ograniczeń - o których więcej w rozdziale \ref{constraints} - sprawia, że problem jest NP trudny.
 }
+
+\streszczeniepracy{Streszczenie pracy}
+\slowakluczowe{Metaheurystyka, symulowane wyżarzanie, problem
+harmonogramowania, optymalizacja procesów, hiperheurystyka}
+
+\thesisabstract{Abstract}
 \thesiskeywords{Metaheuristics, simulated annealing, tabu search, optimization
 problem, scheduling problem, process automation}

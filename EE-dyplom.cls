@@ -81,11 +81,8 @@
 % ---------------------------------------------
 \RequirePackage{polyglossia}
 \setdefaultlanguage{polish}
-\setotherlanguage{polish}
-\setotherlanguage{english}
-\setotherlanguage{latin}
-%\selectlanguage{english}
-%\selectlanguage{polish}
+%\setotherlanguage{polish}
+%\setotherlanguage{english}
 
 % ---------------------------------------------
 % Wymiary strony
@@ -94,7 +91,7 @@
 %   margines zewnętrzny 20 mm,
 %   marginesy górny i dolny 20 mm
 % ---------------------------------------------
-\RequirePackage[a4paper,margin=20mm]
+\RequirePackage[a4paper,margin=25mm]
 {geometry}
 % Do debugowania wymiarów
 %\RequirePackage{showframe}
@@ -147,6 +144,12 @@
     \fancyfoot[RO,LE]{\thepage}
 }
 \fancypagestyle{headings}{
+\newgeometry{
+    inner=2cm,
+    outer=2cm,
+    vmargin=2cm
+    }
+
     \fancyhf{}
 	\renewcommand{\headrulewidth}{1pt}
 	\fancyheadoffset{0cm}
@@ -402,7 +405,7 @@
 %\RequirePackage{titlesec}
 %\titleformat{\chapter}[display]
 %  {\fontsize{18pt}{48pt}\selectfont \bfseries}
-  % {\chaptertitlename\ \thechapter}{1em}
+% {\chaptertitlename\ \thechapter}{1em}
 %  {\fontsize{14pt}{0pt}\selectfont \bfseries}
 %\titleformat{\section}[hang]
 %  {\fontsize{13pt}{18pt}\selectfont \bfseries}
@@ -488,7 +491,7 @@
     \thispagestyle{empty}
 
     \begin{center}
-    \includegraphics[scale=0.35]{PWHead.png}
+    \includegraphics[scale=0.35]{PWhead.png}
     \vskip 2em
     \LARGE \@department
     \vskip 0.5em
@@ -511,14 +514,18 @@
     \normalsize \citylocal \@date
     \end{center}
 \newgeometry{
-    inner=20mm,
-    outer=20mm,
-    vmargin=20mm}
+    inner=2cm,
+    outer=2cm,
+    vmargin=1cm
+    }
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % streszczenie, abstract
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\wstep}[1]{
+    \newcommand{\@wstep}{#1}
+}
 \newcommand{\streszczeniepracy}[1]{
     \newcommand{\@streszczeniepracy}{#1}
 }
@@ -531,6 +538,18 @@
 \newcommand{\thesiskeywords}[1]{
     \newcommand{\@thesiskeywords}{#1}
 }
+
+% Wstęp
+\newcommand{\stronawstepu}{
+    \cleardoublepage
+    \thispagestyle{empty}
+    \begin{center}
+        \textbf{\large Wstęp}
+    \end{center}
+    \@wstep
+    \cleardoublepage
+}
+
 
 % Streszczenie polskie
 \newcommand{\stronastreszczenia}{
@@ -565,13 +584,6 @@
     \cleardoublepage
 }
 
-% Spięcie stron streszczeń we właściwej
-% kolejności w jedno polecenie.
-\newcommand{\abstractpages}{
-    \stronastreszczenia
-    \abstractpage
-}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Oświadczenia o autorstwie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -588,7 +600,9 @@
     \counterwithout{lstlisting}{chapter} % hack niestety
     \pagestyle{empty}
     \maketitle
-    \abstractpages
+    \stronastreszczenia
+    \abstractpage
+    \stronawstepu
     \tableofcontents
     \cleardoublepage
     \pagestyle{headings}

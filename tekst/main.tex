@@ -1,24 +1,8 @@
-\chapter{Cel i zakres pracy}
-Celem niniejszej pracy jest rozwiązanie problemu wyznaczania szeregu terminów rehabilitacji za pomocą algorytmu symulowanego wyżarzania. Oprócz samego rozwiązania problemu, szczegółowo zostanie opisany wpływ następujących czynników na szybkość działania algorytmu oraz na jakość uzyskiwanych rozwiązań:
-
-\begin{itemize}
-\item Temperatura początkowa
-\item Funkcja wychładzania
-\item Typ funkcji przejścia
-\item Wielkość instancji (ilość wizyt do wyznaczenia)
-\item Wielkość przestrzeni rozwiązań
-\item Ograniczenia twarde
-\item Ograniczenia miękkie
-\end{itemize}
-Po zbadaniu wpływu powyższych czynników na czas działania oraz jakość uzyskanych rozwiązań, różne połączenia parametrów - za wyjątkiem ograniczeń - również zostaną przebadane a wyniki szczegółowo opisane. 
-
-Szczególna uwaga zostanie poświęcona zbadaniu relacji między wielkością instancji problemu a parametrami, dokładniej: czy optymalnie dobrane parametry dla pewnej wielkości instancji dadzą równie dobre rezultaty dla instancji o innej wielkości, oraz innej kompozycji (zawierającej inne typy wizyt).
-
 \chapter{Wstęp}
-Optymalizacja procesów w placówkach medycznych jest 
+Optymalizacja procesów w placówkach medycznych jest
 Rozwiązanie problemu wyznaczania terminów rehabilitacji polega na znalezieniu takich bloków
 czasowych (blok trwa 20min), w których mogą zostać umieszczone terminy wykonania zabiegów. Każdy
-pacjent ma listę zabiegów do wykonania (np. 2x bieganie, 3x masaż). 
+pacjent ma listę zabiegów do wykonania (np. 2x bieganie, 3x masaż).
 
 Dane zebrane przez placówkę rehabilitacyjną pokazują, że średnia ilość wyznaczanych zabiegów dla jednego pacjenta to 80. Zabiegi mogą zostać wykonane tylko w pewnej sali zabiegowej, która znajduje się w danym bloku czasowych i ma swoją ograniczoną pojemność.
 
@@ -36,15 +20,32 @@ Dostępność terminów jest bardzo płynna i często zdarzają się sytuacje w 
 dany zabieg może być wyznaczony na drugi dzień od momentu otrzymania zgłoszenia, a już kolejny zabieg na liście
 zabiegowej za 4 miesiące. Dlatego też przedział czasowy brany pod uwagę musi być odpowiednio duży (od 6
 miesięcy do roku).
-\vskip 2em \parindent 0em Jak widać po tym, krótkim i niepełnym opisie problem nie jest trywialny. Duża przestrzeń potencjalnych rozwiązań, typów zabiegów oraz ograniczeń - o których więcej w rozdziale \ref{constraints} - sprawia, że problem jest NP trudny.
+\vskip 2em \parindent 0em
+Jak widać po tym, krótkim i niepełnym opisie problem nie jest trywialny. Duża przestrzeń potencjalnych rozwiązań, typów zabiegów oraz ograniczeń - o których więcej w rozdziale \ref{constraints} - sprawia, że problem jest NP trudny.
+
+\chapter{Cel i zakres pracy}
+Celem niniejszej pracy jest rozwiązanie problemu wyznaczania szeregu terminów rehabilitacji za pomocą algorytmu symulowanego wyżarzania. Oprócz samego rozwiązania problemu, szczegółowo zostanie opisany wpływ następujących czynników na szybkość działania algorytmu oraz na jakość uzyskiwanych rozwiązań:
+
+\begin{itemize}
+\item Temperatura początkowa
+\item Funkcja wychładzania
+\item Typ funkcji przejścia
+\item Wielkość instancji (ilość wizyt do wyznaczenia)
+\item Wielkość przestrzeni rozwiązań
+\item Ograniczenia twarde
+\item Ograniczenia miękkie
+\end{itemize}
+Po zbadaniu wpływu powyższych czynników na czas działania oraz jakość uzyskanych rozwiązań, różne połączenia parametrów - za wyjątkiem ograniczeń - również zostaną przebadane a wyniki szczegółowo opisane.
+
+Szczególna uwaga zostanie poświęcona zbadaniu relacji między wielkością instancji problemu a parametrami, dokładniej: czy optymalnie dobrane parametry dla pewnej wielkości instancji dadzą równie dobre rezultaty dla instancji o innej wielkości, oraz innej kompozycji (zawierającej inne typy wizyt).
 
 \chapter{Modelowanie problemu wyznaczania terminów rehabilitacji}
 Ten rozdział przedstawia pewną grupę problemów. Są to problemy,
 które można nazwać problemami harmonogramowania (z ang. scheduling problems).
 Do tej grupy można zaliczyć takie problemy jak: \emph{Job Shop Problem} czy
-\emph{Nurse Scheduling Problem }. Wszystkie problemy, które możemy zaklasyfikować
+\emph{Nurse Scheduling Problem}. Wszystkie problemy, które możemy zaklasyfikować
 jako problemy harmonogramowania, starają się jak najlepiej przypisać pewne
-zadania (np. rehabilitację) do pewnych terminów, uwzględniając przy tym ograniczone zasoby (np. ilość
+zadania (np. odbycie zabiegu rehabilitacyjnego) do pewnych terminów, uwzględniając przy tym ograniczone zasoby (np. ilość
 sal, czy maszyn).
 
 Opisanie zróżnicowania problemów istniejących w tej grupie, jest ważne w celu pełnego
@@ -53,18 +54,30 @@ terminów rehabilitacji i wybraniu najlepszego.
 
 \section{Opis istniejących problemów harmonogramowania}
 \subsection{Job Shop Problem}
-\subsection{Nurse Scheduling Problem \cite{nurseScheduling}}
-\subsection{College Admission Problem (Matching) \cite{matchingUnderPref}}
-Ten problem stara się przypisać rezydentów z listy $R={r_1,r_2,r_3...r_k}$ do szpitali z listy
-$H={h_1,h_2...h_n}$ w taki sposób aby pojemność danego szpitala $c_j$ nie
-została przekroczona, oraz aby szpital do którego zostanie przypisany rezydent był przez niego akceptowalny i vice versa. 
+\subsection{Problem harmonogramowania dyżurów pielęgniarek}
+Problem harmonogramowania dyżurów pielęgniarek\cite{nurseScheduling} (\emph{z ang. NSP}) jest problemem często spotykanym nie tylko w placówkach medycznych, ale
+wszędzie tam gdzie istnieje potrzeba ustalenia grafiku dla wielu pracowników.
+
+Ustalenie takiego harmonogramu ręcznie jest czasochłonne oraz nieefektywne,
+szczególnie jeśli chcemy uwzględnić cały szereg ograniczeń, nałożonych przez
+pracodawcę, umowy czy podpisane zobowiązania.
+
+W swojej najogólniejszej postaci NSP stara się przypisać pracowników do
+odpowiednich zmian w ciągu dnia tak, aby zmaksymalizować zadowolenie pracowników
+oraz zminimalizować koszty pracodawcy przy jednoczesnym spełnieniu całej listy
+wymagań.
+
+Problem NSP jest bardzo zbliżonym problemem, do problemu który chcemy rozwiązać
+w tej pracy. Jednak przestrzeń z którą mamy do czynienia w większości wariantów problemu NSP jest o wiele mniejsza - od 7 do 30 dni, trzy zmiany w każdym dniu - niż w problemie wyznaczania terminów rehabilitacji - od 60 dni do 365 dni każdy podzielony na 20min bloki.
+
+Dodatkowo w procesie wyznaczania terminów rehabilitacji musimy uwzględnić już wsześniej wyznaczone terminy, tak aby spełnić ograniczenie narzucającące nam zachowanie odstepów czasowych między pewnymi typami zabiegów.
 
 Niestety modelowanie problemu za pomocą matchingu wymaga przypisania do
 siebie elementów dwóch lub więcej zbiorów. Jest to kłopotliwe w problemie wyznaczania
 terminów rehabilitacji. Zbiór zabiegów należałoby połączyć ze zbiorem
-terminów, tylko że zbiór terminów jest bardzo duży, dodatkowo nie jesteśmy w
-stanie określić wartości takiego połączenia między zabiegiem a terminem w
-izolacji od innych dat wykonania innych zabiegów, tych istniejących jak i tych
+terminów, tylko że zbiór terminów jest bardzo duży. Dodatkowo nie jesteśmy w
+stanie określić wartości połączenia między zabiegiem a terminem w
+izolacji od innych dat wykonania zabiegów, tych istniejących jak i tych
 obecnie wyznaczanych.
 
 \chapter{Przedstawienie problemu jako ogólnego problemu optymalizacji}
@@ -80,19 +93,25 @@ obecnie wyznaczanych.
 \section{Złożoność pamięciowa przyjętego modelu (Może być za dużo roboty)}
 \section{Złożoność obliczeniowa przyjętego modelu (Może być za dużo roboty)}
 
-\chapter{Zastosowane algorytmy metaheurystyczne}
-\section{Symulowane wyżarzanie}
-\subsection{Schemat działania symulowanego wyżarzania}
-\subsection{Ruchy zmieniające rozwiązanie}
-\subsection{Kryteria stopu}
-\subsection{Temperatura początkowa}
-\subsection{Funkcje wychładzania}
-\section{Symulowane wyżarzanie wzbogacone o tabelę Tabu}
-\subsection{Funkcja utrzymania tabu}
-%\section{Algorytm genetyczny (optional)}
-%\subsection{Populacja początkowa}
-%\subsection{Operator krzyżowania}
-%\subsection{Operator mutacji}
+\chapter{Opis elementów symulowanego wyżarzania}
+
+\section{Schemat działania symulowanego wyżarzania}
+
+\section{Metody zmiany rozwiązania}
+\subsection{Zmiana całkowicie losowa}
+\subsection{Zmiana stopniowa}
+\subsection{Zmiana inteligentna}
+
+\section{Kryteria stopu}
+\subsection{Maksymalna ilość kroków}
+\subsection{Maksymalna ilość kroków bez znalezienia lepszego rozwiązania}
+\subsection{Aż do odpowiedniego spadku temperatury}
+
+\section{Funkcje wychładzania}
+\subsection{Chłodzenie liniowe}
+\subsection{Chłodzenie kwadratowe}
+\subsection{Chłodzenie krokowe}
+\subsection{Podgrzewanie}
 
 \addtocontents{toc}{\protect\newpage}
 
