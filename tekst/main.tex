@@ -2,92 +2,73 @@
 % Cel i zakres pracy
 \input{tekst/chapters/goal.tex}
 
-\chapter{Modelowanie problemu wyznaczania terminów rehabilitacji}
-Ten rozdział przedstawia pewną grupę problemów. Są to problemy,
-które można nazwać problemami harmonogramowania (z ang. scheduling problems).
-Do tej grupy można zaliczyć takie problemy jak: \emph{Job Shop Problem} czy
-\emph{Nurse Scheduling Problem}. Wszystkie problemy, które możemy zaklasyfikować
-jako problemy harmonogramowania, starają się jak najlepiej przypisać pewne
-zadania (np. odbycie zabiegu rehabilitacyjnego) do pewnych terminów, uwzględniając przy tym ograniczone zasoby (np. ilość
-sal, czy maszyn).
+\chapter{Przedstawienie problemu harmonogramowania zabiegów rehabilitacyjnych}
+Ten rozdział ma na celu przybliżenie specyfiki problemu harmonogramowania zabiegów
+rehabilitacyjnych, jaki występują w placówkach z firmą Medinet.
 
-Opisanie zróżnicowania problemów istniejących w tej grupie, jest ważne w celu pełnego
-zrozumienia, możliwych podejść do rozwiązania problemu wyznaczania
-terminów rehabilitacji i wybraniu najlepszego.
+\chapter{Przegląd literatury}
+W tym rozdziale zostały opisane wnioski wyciągnięte z przeglądu dotychczasowych
+prac badawczych w temacie harmonogramowania.
 
-\section{Opis istniejących problemów harmonogramowania}
-\subsection{Job Shop Problem}
-\subsection{Problem harmonogramowania dyżurów pielęgniarek}
-Problem harmonogramowania dyżurów pielęgniarek\cite{nurseScheduling} (\emph{z ang. NSP}) jest problemem często spotykanym nie tylko w placówkach medycznych, ale
-wszędzie tam gdzie istnieje potrzeba ustalenia grafiku dla wielu pracowników.
+\chapter{Opis algorytmu symulowanego wyżarzania} \label{chapter:sa-desc}
+Symulowane wyżarzanie \cite{metaheuristic-handbook} \emph{(z ang. simulated annealing)} (w skrócie: SA) jest metaheurystyką stosowaną, przy rozwiązywaniu szerokiego wachlarza problemów \emph{NP trudnych}. W tym rozdziale opisane zostaną kluczowe elementy składowe SA takie jak: funkcja celu, ograniczenia, schemat chłodzenia itd.
 
-Ustalenie takiego harmonogramu ręcznie jest czasochłonne oraz nieefektywne,
-szczególnie jeśli chcemy uwzględnić cały szereg ograniczeń, nałożonych przez
-pracodawcę, umowy czy podpisane zobowiązania.
+\section{Przedstawienie głównej pętli algorytmu wyżarzania}
+\section{Sposoby zmiany rozwiązania} 
+\section{Specyfika funkcji oceny rozwiązania}
+\section{Specyfika funkcji kary za niedopuszczalność}
+\section{Wpływ temperatury na akceptację rozwiązania}
+\section{Schematy chłodzenia}
 
-W swojej najogólniejszej postaci NSP stara się przypisać pracowników do
-odpowiednich zmian w ciągu dnia tak, aby zmaksymalizować zadowolenie pracowników
-oraz zminimalizować koszty pracodawcy przy jednoczesnym spełnieniu całej listy
-wymagań.
+\chapter{Propozycja rozwiązania problemu harmonogramowania zabiegów}
+Znając specyfikę problemu oraz metaheurystykę, która pomoże w jego rozwiązaniu,
+można przejść do opisu proponowanego rozwiązania. W następnych sekcjach został 
+opisany projekt i implementacja systemu, odpowiedzialnego za harmonogramowanie zabiegów rehabilitacyjnych.
 
-Problem NSP jest bardzo zbliżonym problemem, do problemu który chcemy rozwiązać
-w tej pracy. Jednak przestrzeń z którą mamy do czynienia w większości wariantów problemu NSP jest o wiele mniejsza - od 7 do 30 dni, trzy zmiany w każdym dniu - niż w problemie wyznaczania terminów rehabilitacji - od 60 dni do 365 dni każdy podzielony na 20min bloki.
-
-Dodatkowo w procesie wyznaczania terminów rehabilitacji musimy uwzględnić już wsześniej wyznaczone terminy, tak aby spełnić ograniczenie narzucającące nam zachowanie odstepów czasowych między pewnymi typami zabiegów.
-
-Niestety modelowanie problemu za pomocą matchingu wymaga przypisania do
-siebie elementów dwóch lub więcej zbiorów. Jest to kłopotliwe w problemie wyznaczania
-terminów rehabilitacji. Zbiór zabiegów należałoby połączyć ze zbiorem
-terminów, tylko że zbiór terminów jest bardzo duży. Dodatkowo nie jesteśmy w
-stanie określić wartości połączenia między zabiegiem a terminem w
-izolacji od innych dat wykonania zabiegów, tych istniejących jak i tych
-obecnie wyznaczanych.
-
-\chapter{Przedstawienie problemu jako ogólnego problemu optymalizacji}
-\section{Opis instancji problemu}
-\section{Charakterystyka przestrzeni rozwiązań}
-\section{Funkcja oceny rozwiązania}
-\section{Lista ograniczeń twardych \label{constraints}}
-\subsection{Ograniczenie ilości wizyt w jednym dniu}
-\subsection{Wizyty nie mogą na siebie nachodzić}
-\subsection{itd itp (nie wiem czy warto je tak wypisywać jako sekcje}
-\section{Lista ograniczeń miękkich}
-\subsection{Preferuj czas podany przez pacjenta}
-\section{Złożoność pamięciowa przyjętego modelu (Może być za dużo roboty)}
-\section{Złożoność obliczeniowa przyjętego modelu (Może być za dużo roboty)}
-
-\chapter{Opis elementów symulowanego wyżarzania}
-
-\section{Schemat działania symulowanego wyżarzania}
-
-\section{Metody zmiany rozwiązania}
-\subsection{Zmiana całkowicie losowa}
-\subsection{Zmiana stopniowa}
-\subsection{Zmiana inteligentna}
-
-\section{Kryteria stopu}
-\subsection{Maksymalna ilość kroków}
-\subsection{Maksymalna ilość kroków bez znalezienia lepszego rozwiązania}
-\subsection{Aż do odpowiedniego spadku temperatury}
-
-\section{Funkcje wychładzania}
+\section{Opis pojedynczej instancji problemu}
+\section{Opis rozwiązania problemu}
+\section{Lista ograniczeń twardych}
+\section{Lista preferencji}
+\section{Wykorzystane schematy chłodzenia}
 \subsection{Chłodzenie liniowe}
 \subsection{Chłodzenie kwadratowe}
-\subsection{Chłodzenie krokowe}
-\subsection{Podgrzewanie}
+\subsection{Cykliczne podgrzewanie}
+
+
+\chapter{Poszukiwanie najlepszych parametrów algorytmu}
+Jak zostało przedstawione w rozdziale \ref{chapter:sa-desc}, algorytm
+symulowanego wyżarzania korzysta z listy parametrów, które mają decydujący wpływ
+na specyfikę jego zachowania. 
+
+W tym rozdziale opisany został proces, mający na celu wyłonienie najlepszych
+parametrów, z uwzględnieniem różnych instancji jak i przestrzeni rozwiązań.
+
+\section{Opis programu irace}
+\section{Sposób wykorzystania programu irace}
+\section{Przedstawienie uzyskanych parametrów}
 
 \addtocontents{toc}{\protect\newpage}
 
-\chapter{Analiza algorytmu symulowanego wyżarzania}
-\section{Opis stałych elementów analizy}
-\subsection{Opis przyjętych instancji problemu}
-\subsection{Opis przyjętej przestrzeni rozwiązań}
-\section{Przeprowadzone badania}
-\subsection{Wpływ temperatury początkowej na jakość rozwiązania}
-\subsection{Wpływ funkcji wychładzania na jakość rozwiązania}
-\subsection{Wpływ funkcji ruchu na jakość rozwiązania}
-\subsection{Wpływ wielkości instancji na jakość rozwiązania}
-\subsection{Jakość rozwiązania uzyskana po wymieszaniu parametrów}
-\subsection{Jakość rozwiązania uzyskana po połączeniu najlepszych parametrów}
+\chapter{Badania efektywności zaproponowanego rozwiązania}
+Rozdział ten opisuje badania mające na celu sprawdzenie efektywności
+zaproponowanego rozwiązania. Wpływ różnych elementów algorytmu na czas działania programu, jak i jakość
+uzyskiwanych rozwiązań został zbadany.
+
+\section{Założenia metodologiczne}
+\section{Opis czynników mogących wpłynąć na wyniki badań}
+
+\section{Przedstawienie zużycia pamięci przez zaproponowany program}
+INFO: TUTAJ BĘDZIE OPIS TEGO ILE PROCESOR SPĘDZA CZASU NA POSZCZEGÓLNYCH KROKACH. ILE
+NA OGRANICZENIU X ILE NA Y A ILE NA Z. ILE NA OCENIĘ ROZWIĄZANIA; ILE NA
+KONTAKT Z DB
+
+\section{Przedstawienie czasu działania zaproponowanego programu} \label{section:memory-usage}
+Rozdział \ref{section:memory-usage} przedstawia średnie zużycie pamięci
+komputera odpowiedzialnego za proces harmonogramowania.
+
+\section{Badanie wpływu temperatury początkowej na jakość rozwiązania}
+\section{Badanie wpływu funkcji wychładzania na jakość rozwiązania}
+\section{Badanie wpływu funkcji ruchu na jakość rozwiązania}
+\section{Badanie wpływu ilości zabiegów w instancji problemu na jakość rozwiązania}
 
 \chapter{Podsumowanie}
