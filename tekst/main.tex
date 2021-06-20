@@ -1,28 +1,3 @@
-\chapter{Wstęp}
-Optymalizacja procesów w placówkach medycznych jest
-Rozwiązanie problemu wyznaczania terminów rehabilitacji polega na znalezieniu takich bloków
-czasowych (blok trwa 20min), w których mogą zostać umieszczone terminy wykonania zabiegów. Każdy
-pacjent ma listę zabiegów do wykonania (np. 2x bieganie, 3x masaż).
-
-Dane zebrane przez placówkę rehabilitacyjną pokazują, że średnia ilość wyznaczanych zabiegów dla jednego pacjenta to 80. Zabiegi mogą zostać wykonane tylko w pewnej sali zabiegowej, która znajduje się w danym bloku czasowych i ma swoją ograniczoną pojemność.
-
-Pewne zabiegi wymagają konkretnego odstępu czasowego między sobą np. zabieg
-\emph{laseroterapii} nie może być wykonywany w przeciągu 1h od momentu zakończenia
-wykonania zabiegu \emph{krioterapii}. Taka reguła nie koniecznie może występować w obie
-strony.
-
-Terminy preferowane przez pacjenta, oraz godziny otwarcia danej placówki też
-muszą być uwzględnione w procesie wyznaczania terminów odbycia zabiegów - tak samo
-jak święta czy sytuacje nagłe takie jak zepsucie sprzętu niezbędnego do
-przeprowadzenia danej procedury.
-
-Dostępność terminów jest bardzo płynna i często zdarzają się sytuacje w których
-dany zabieg może być wyznaczony na drugi dzień od momentu otrzymania zgłoszenia, a już kolejny zabieg na liście
-zabiegowej za 4 miesiące. Dlatego też przedział czasowy brany pod uwagę musi być odpowiednio duży (od 6
-miesięcy do roku).
-\vskip 2em \parindent 0em
-Jak widać po tym, krótkim i niepełnym opisie problem nie jest trywialny. Duża przestrzeń potencjalnych rozwiązań, typów zabiegów oraz ograniczeń - o których więcej w rozdziale \ref{constraints} - sprawia, że problem jest NP trudny.
-
 \chapter{Cel i zakres pracy}
 Celem niniejszej pracy jest rozwiązanie problemu wyznaczania szeregu terminów rehabilitacji za pomocą algorytmu symulowanego wyżarzania. Oprócz samego rozwiązania problemu, szczegółowo zostanie opisany wpływ następujących czynników na szybkość działania algorytmu oraz na jakość uzyskiwanych rozwiązań:
 
