@@ -574,6 +574,7 @@
     \thispagestyle{empty}
     \begin{center}
         \textbf{\large\@engtitle}
+
         \textbf{Abstract}
     \end{center}
     \@thesisabstract
