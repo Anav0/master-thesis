@@ -1,50 +1,60 @@
-\department{Wydział Matematyki, Fizyki i Informatyki}
-\instytut{Instytut Informatyki}
-\kierunek{Informatyka}
-\specjalnosc{SPECJALNOŚĆ}
-\title{Projekt i implementacja algorytmu symulowanego wyżarzania dla problemu
-harmonogramowania zabiegów rehabilitacyjnych}
-\engtitle{Design and implementation of a simulated annealing algorithm for
-scheduling rehabilitation appointments}
+\department{Wydział Matematyki, Fizyki i Informatyki} 
+
+\instytut{Instytut
+Informatyki} 
+
+\kierunek{Informatyka} 
+
+\specjalnosc{SPECJALNOŚĆ} 
+
+\title{Projekt i
+implementacja algorytmu symulowanego wyżarzania dla problemu harmonogramowania
+zabiegów rehabilitacyjnych} 
+
+\engtitle{Design and implementation of a simulated
+annealing algorithm for scheduling rehabilitation appointments} 
+
 \album{119838}
-\author{Igor Motyka}
-\promotor{dr inż. Sławomira Stemplewskiego}
+
+\author{Igor Motyka} 
+
+\promotor{dr inż. Sławomira Stemplewskiego} 
+
 \date{2021}
 
-\wstep{
-Optymalizacja procesów w placówkach medycznych jest kluczowa, jeśli chcemy
-zredukować koszty operacyjne i tym samym realnie przyczynić się do spadku cen
-usług świadczonych przez daną jednostkę medyczną. Komputerowe harmonogramowanie terminów zabiegów czy dyżurów
-pielęgniarek powoduje redukcję personelu do tej pory odpowiedzialnego za manualne wykonywanie tych czynności.
+\wstep{ Optymalizacja procesów harmonogramowania w placówkach medycznych jest
+	ważnym czynnikiem w próbie redukcji kosztów operacyjnych danej
+	jednostki. Komputerowe harmonogramowanie terminów zabiegów czy dyżurów
+	pielęgniarek powoduje, redukcję personelu do tej pory odpowiedzialnego,
+	za manualne harmonogramowanie tych procesów. Zmniejszenie ilości
+	personelu, przy jednoczesnym zwiększeniu jakości uzyskiwanych
+	harmonogramów, owocuje mniejszymi kosztami jakie ponosi placówka, a tym
+	samym jakie musi pokryć klient.
 
-Rozwiązanie problemu wyznaczania terminów rehabilitacji polega na znalezieniu takich bloków
-czasowych w ciągu dnia, w których mogą zostać umieszczone terminy wykonania zabiegów. Każdy
-pacjent ma zleconą przez lekarza listę koniecznych do wykonania zabiegów (np. 2x bieganie, 3x masaż).
+W niniejszej pracy przedstawiona zostanie propozycja implementacji rozwiązania
+problemu harmonogramowania zabiegów rehabilitacyjnych, który występuje w wielu
+placówkach medycznych, współpracujących z Opolską firmą Medinet. Medinet
+\footnote{Strona internetowa firmy - http://www.medinet.opole.pl/} jest to
+opolska firma dostarczająca oprogramowanie, umożliwiające kompleksową obsługę
+wielu procesów niezbędnych w płynnym działaniu, każdej placówki służby zdrowia
+\textbf{INFO: brzmi trochę jak tania reklama rodem z telezakupów Mango}.
 
-Dane zebrane przez placówkę rehabilitacyjną pokazują, że średnia ilość wyznaczanych zabiegów dla jednego pacjenta to 80. Zabiegi mogą zostać wykonane tylko w pewnej sali zabiegowej, która znajduje się w danym bloku czasowych i ma swoją ograniczoną pojemność.
+Harmonogramowanie dat wykonania zabiegów rehabilitacyjnych jest pod wieloma
+względami unikatowe na tle innych problemów harmonogramowania, takich jak
+układanie planu lekcji czy planowanie zmian w jakich mają pracować pielęgniarki.
+Zabiegi rehabilitacyjne muszą się odbywać w cyklach, tak aby pacjent faktycznie
+skorzystał z leczniczych efektów danego zabiegu; Zabiegi nie mogą być wykonywane
+w dowolnej kolejności np. zabieg laseroterapii nie może się odbyć, jeśli pacjent
+nie poczeka minimum 20 min, w przypadku gdy poprzednim zabiegiem był zabieg
+krioterapii; Dany typ zabiegu, nie może się odbywać częściej, niż raz dziennie;
+Pacjent może mieć bardzo konkretne preferencje, co do kolejności i czasu
+wykonywania zabiegów. Jeden pacjent może preferować, wykonanie zabiegu już w
+następnym tygodniu od daty otrzymania skierowania, a inny może preferować
+następny miesiąc czy kwartał. Szczegółowa lista ograniczeń, które muszą zostać
+wzięte pod uwagę została opisana w rozdziale \ref{constraints}.}
 
-Pewne zabiegi wymagają konkretnego odstępu czasowego między sobą np. zabieg
-\emph{laseroterapii} nie może być wykonywany w przeciągu 1h od momentu zakończenia
-wykonania zabiegu \emph{krioterapii}. Taka reguła nie koniecznie może występować w obie
-strony.
+\streszczeniepracy{Streszczenie pracy} \slowakluczowe{Metaheurystyka, symulowane
+wyżarzanie, problem harmonogramowania, optymalizacja procesów, hiperheurystyka}
 
-Terminy preferowane przez pacjenta, oraz godziny otwarcia danej placówki też
-muszą być uwzględnione w procesie wyznaczania terminów odbycia zabiegów - tak samo
-jak święta czy sytuacje nagłe takie jak zepsucie sprzętu niezbędnego do
-przeprowadzenia danej procedury.
-
-Dostępność terminów jest bardzo płynna i często zdarzają się sytuacje w których
-dany zabieg może być wyznaczony na drugi dzień od momentu otrzymania zgłoszenia, a już kolejny zabieg na liście
-zabiegów zleconych przez lekarza za 4 miesiące. Dlatego też przedział czasowy brany pod uwagę musi być odpowiednio duży (od 6
-miesięcy do nawet roku).
-\vskip 2em \parindent 0em
-Jak widać po tym, krótkim i niepełnym opisie problem nie jest trywialny. Duża przestrzeń potencjalnych rozwiązań, typów zabiegów oraz ograniczeń - o których więcej w rozdziale \ref{constraints} - sprawia, że problem jest NP trudny.
-}
-
-\streszczeniepracy{Streszczenie pracy}
-\slowakluczowe{Metaheurystyka, symulowane wyżarzanie, problem
-harmonogramowania, optymalizacja procesów, hiperheurystyka}
-
-\thesisabstract{Abstract}
-\thesiskeywords{Metaheuristics, simulated annealing, tabu search, optimization
-problem, scheduling problem, process automation}
+\thesisabstract{Abstract} \thesiskeywords{Metaheuristics, simulated annealing,
+tabu search, optimization problem, scheduling problem, process automation}
