@@ -1,0 +1,163 @@
+\chapter{Przedstawienie problemu harmonogramowania zabiegów rehabilitacyjnych}
+Ten rozdział ma na celu przybliżenie specyfiki problemu harmonogramowania zabiegów
+rehabilitacyjnych, jaki występuje w placówkach współpracujących z firmą Medinet.
+
+\section{Podstawowy problem harmonogramowania}
+Problem harmonogramowania zabiegów rehabilitacyjnych jest wariantem ogólnego problemu
+harmonogramowania (z ang. \emph{timetable scheduling}). Problem ten  stara się
+przypisać pewnym wydarzeniom - kursom, zabiegom, lotom itd. - pewien moment
+wykonania (termin) oraz pewne niezbędne zasoby - sale, nauczycieli,
+rehabilitantów, sprzęt itd. - tak, aby spełnić pewne ograniczenia oraz
+zmaksymalizować poziom zaspokojenia określonych preferencji. Ograniczenia muszą
+zostać spełnione aby rozwiązanie było dopuszczalne, natomiast preferencje muszą
+być zaspokojone w największym możliwym stopniu.
+
+Ogólny problem harmonogramowania można zapisać \cite{timetableProblem2} jako:
+zbiór terminów \emph{T}, zbiór zasobów \emph{R}, zbiór spotkań \emph{M} oraz
+zbiór ograniczeń \emph{C}. Rozwiązaniem podstawowego problemu harmonogramowania,
+jest takie przypisanie terminów oraz niezbędnych zasobów do spotkań, aby jak
+najlepiej spełnić konkretne ograniczenia. Wariant podstawowy nie definiuje
+osobno preferencji i ograniczeń twardych, tylko chęć spełnienia jak największej ilości ograniczeń
+jako takich. To czy dane ograniczenie jest wymagane czy też nie, to szczegół
+implementacyjny uzależniony od specyfiki konkretnej wersji problemu.
+
+Jak się okaże w kolejnym rozdziale, problem harmonogramowania zabiegów
+rehabilitacyjnych jest de facto nieco bardziej skomplikowaną wersją ogólnego
+problemu harmonogramowania.
+\pagebreak
+\section{Definicja problemu rehabilitacyjnego}
+Placówki świadczące usługi rehabilitacyjne operują na tzw. zleceniach. Zlecenie
+\sRef\ jest to lista pomniejszych zleceń \sSubRef\ na pewien konkretny zabieg rehabilitacyjny.
+Każdy zabieg trwa określoną ilość czasu oraz jest odbywany na konkretnej sali
+zabiegowej. Zadaniem pracownika jest takie przypisanie terminów oraz sal do konkretnych
+zabiegów, aby jak najlepiej spełnić ograniczenia nadane przez placówkę.
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{ l l l l }
+	Id zlecenia & Id zabiegu & Nazwa zabiegu & Czas trwania zabiegu \\
+	\hline
+	14123 & 0 & Laseroterapia & 15m \\
+	14124 & 0 & Laseroterapia & 15m \\
+	14125 & 2 & Krioterapia & 7m \\
+	\end{tabular}
+	\caption{Przykładowe zlecenie \sRef}
+	\label{example-referral}
+\end{figure}
+
+Problem można zdefiniować jako: \emph{$SP=\{\sRef, start, end\}$}. Gdzie \sRef\
+jest to lista zabiegów, \emph{start} jest datą początkową a \emph{end} końcową w
+obrębie których mają się znaleźć wyznaczone terminy dla zabiegów z listy \sRef.
+Rozwiązaniem problemu \emph{SP} jest
+\emph{$\sSol=\{\sTermSet_1,\sTermSet_2...\sTermSet_n\}$}, gdzie \sSol\ jest
+zbiorem pomniejszych zbiorów \sTermSet, które zawierają w sobie konkretne terminy
+\sTerm. Pozycja zbiorów \sTermSet\ określa to któremu zabiegowi odpowiadają dane
+terminy. Trzymając się przykładu z rysunku \ref{example-referral}:
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{ l l l l }
+	Id zlecenia & Id terminu & Początek terminu & Czas trwania terminu \\
+	\hline
+	14123 & 645 & 08:00 01.01.2021 & 10m \\
+	14123 & 646 & 08:10 01.01.2021 & 10m \\
+	14124 & 816 & 10:00 02.01.2021 & 20m \\
+	14125 & 910 & 08:30 01.01.2021 & 15m \\
+	\end{tabular}
+	\caption{Przykładowe rozwiązanie \emph{S}}
+	\label{example-solution}
+\end{figure}
+
+Zauważmy, że pierwsze dwa terminy są przypisane do tego samego zlecenia,
+ponieważ czas trwania terminu jest mniejszy niż czas trwania zabiegu.
+
+To jakie terminy \sTerm\ mogą zostać przypisane danemu zleceniu \sSubRef,\
+zależy od typu zabiegu. Każdy typ zabiegu np. laseroterapia, masaż etc. jest
+połączony z odpowiednimi \emph{listami terminów}. Listy terminów określają
+konkretne terminy na dany dzień dla danej sali zabiegowej \sPlace, a sama sala
+ogranicza nam zabiegi, które mogą się w niej wykonywać. Można śmiało myśląc o
+listach terminów, myśleć o konkretnych dniach miesiąca. Przykładowo lista na
+dzień 01.01.2021 dla sali "Basen" może zawierać w sobie 30 terminów od godziny 08:00
+do 18:00 w interwałach 20 minutowych. Czas trwania terminu dla tej listy wynosi
+więc 20 minut. Terminy w zestawie mogą mieć różną długość: 5m, 10m, 15m, 20m, 30m
+lub 60m. % TODO: Sprawdź konkretne czasy
+
+\pagebreak
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{gfx/medinet-treatments-stats.pdf}
+	\caption{Ilość zabiegów w zleceniu}
+	\label{medinet-treatments-stats}
+\end{figure}
+Z bazy danych firmy Medinet możemy uzyskać następujące dane statystyczne co do
+ilości zabiegów w zleceniach. Jak widać ilość zabiegów wacha się między 10 a 70.
+Najczęstsza ilość zabiegów w zleceniu to 30, później 40 itd. Duża powtarzalność
+ilości zabiegów jest spowodowana szablonami, z których korzystają lekarze.
+Szablony nie są ściśle określone przez prawo ani nawet przez jednostkę, lecz są
+to pomocnicze elementy, które zależą od konkretnego lekarza i jego praktyki.
+\pagebreak
+\section{Ograniczenia}
+Wiemy już jak wygląda problem oraz jego rozwiązanie. Specyfika problemu
+harmonogramowania zabiegów rehabilitacyjnych wymusza wzięcie pod uwagę
+dodatkowych ograniczeń, które musi spełniać rozwiązanie \sSol.
+\begin{enumerate}
+	\item{$C_1$ - Dwa zabiegi rehabilitacyjne tego samego typu nie mogą być
+		zaplanowane na ten sam dzień.}
+	\item{$C_2$ - Dwa zabiegi rehabilitacyjne nie mogą być zaplanowane w na ten sam czas.}
+	\item{$C_3$ - Zabiegi określone w słowniku \sGap\ muszą zachować określony tam odstęp.}
+	\item{$C_4$ - Zabiegi nie mogą zostać zapisane w terminach, które są zapełnione.}
+\end{enumerate}
+Słownik \sGap\ jest to struktura przechowująca informację o minimalnych
+przerwach między danymi typami zabiegów.
+Jak widać na poniższych rysunkach, zabiegi mogą mieć zdefiniowaną różną przerwę
+w zależności od tego, który zabieg występuje jako pierwszy w danym dniu. Kolorem
+czerwonym została zaznaczona wymagana przerwa, natomiast zabieg 0 i 1
+reprezentowane są przez odpowiednio oznaczone prostokąty.
+\\
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{ l l l l l }
+		Id zabiegu & Id następnego zabiegu & Wymagana przerwa \\
+	\hline
+		1 & 0 & 60m \\
+		0 & 1 & 20m \\
+	\end{tabular}
+	\caption{Przykładowa struktura \sGap\ definiująca wymagane przerwy}
+	\label{example-gaps}
+\end{figure}
+\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{gfx/gap_1.pdf}
+	\caption{Wizualizacja wymaganej przerwy między zabiegami (A)}
+	\label{example-gaps-1}
+\end{figure}
+\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{gfx/gap_2.pdf}
+	\caption{Wizualizacja wymaganej przerwy między zabiegami (B)}
+	\label{example-gaps-2}
+\end{figure}
+\pagebreak
+\section{Preferencje}
+Preferencje są to cechy, które powinno spełniać dobre rozwiązanie.
+Aczkolwiek ich spełnienie nie jest wymagane aby rozwiązanie było akceptowalne.
+\begin{enumerate}
+	\item{$P_1$ - Im wcześniej pacjent opuści placówkę tym lepiej. }
+	\item{$P_2$ - Im mniej przerw między zabiegami w ciągu dnia tym lepiej.}
+	\item{$P_3$ - Im mniej wykorzystanych dni tym lepiej.}
+	\item{$P_4$ - Im wcześniej zaczyna się dany zabieg w danym dniu tym lepiej.}
+	\item{$P_5$ - Im większa ilość zabiegów w danym dniu tym lepiej.}
+\end{enumerate}
+
+Jak widać preferencję dotyczą głównie chęci minimalizacji czasu spędzonego na
+obsłudze danego zlecenia. Im mniej zasobów jednostki jest wykorzystanych tym
+lepiej.
+
+Drugorzędnym celem jest maksymalizacja komfortu pacjenta. Im mniej czasu pacjent
+musi spędzić na jednostce tym lepiej dla niego jak i dla samej jednostki.
+Preferencje czasowe pacjenta nie są uwzględnione w samym wyznaczaniu terminów,
+ponieważ priorytetem jest jak najefektywniejsza obsługa zleceń. Z praktyki
+jednostek wynika, że preferencje pacjentów są bardzo nieprecyzyjne, mgliste i
+nie dają się w konkretny sposób przełożyć na proces wyznaczania.

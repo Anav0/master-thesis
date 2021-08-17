@@ -1,70 +1,23 @@
-
 % Cel i zakres pracy
 \input{tekst/chapters/goal.tex}
 
-\chapter{Przedstawienie problemu harmonogramowania zabiegów rehabilitacyjnych}
-Ten rozdział ma na celu przybliżenie specyfiki problemu harmonogramowania zabiegów
-rehabilitacyjnych, jaki występuje w placówkach współpracujących z firmą Medinet.
+% Przedstawienie problemu
+\input{tekst/chapters/problem.tex}
 
-\chapter{Przegląd literatury}
-W tym rozdziale zostały opisane wnioski, wyciągnięte z przeglądu dotychczasowych
-prac badawczych traktujących o problemach harmonogramowania.
+% Przegląd literatury
+\input{tekst/chapters/literature.tex}
 
-\chapter{Opis algorytmu symulowanego wyżarzania} \label{chapter:sa-desc}
-Symulowane wyżarzanie \cite{metaheuristic-handbook} \emph{(z ang. simulated annealing)} (w skrócie: SA) jest metaheurystyką stosowaną, przy rozwiązywaniu szerokiego wachlarza problemów \emph{NP trudnych}. W tym rozdziale opisane zostaną kluczowe elementy składowe SA takie jak: funkcja celu, ograniczenia, schemat chłodzenia itd.
+% Opis algorytmu SA
+\input{tekst/chapters/annealing.tex}
 
-\section{Przedstawienie głównej pętli algorytmu wyżarzania}
-\section{Sposoby zmiany rozwiązania} 
-\section{Specyfika funkcji oceny rozwiązania}
-\section{Specyfika funkcji kary za niedopuszczalność}
-\section{Wpływ temperatury na akceptację rozwiązania}
-\section{Schematy chłodzenia}
+% Propozycja rozwiązania
+\input{tekst/chapters/solution.tex}
 
-\chapter{Propozycja rozwiązania problemu harmonogramowania zabiegów}
-Znając specyfikę problemu oraz metaheurystykę, która pomoże w jego rozwiązaniu,
-można przejść do opisu proponowanego rozwiązania. W następnych sekcjach został 
-opisany projekt i implementacja systemu, odpowiedzialnego za harmonogramowanie zabiegów rehabilitacyjnych.
+% Badania
+\input{tekst/chapters/research.tex}
 
-\section{Opis pojedynczej instancji problemu}
-\section{Opis rozwiązania problemu}
-\section{Lista ograniczeń twardych}
-\section{Lista preferencji}
-\section{Wykorzystane schematy chłodzenia}
-\subsection{Chłodzenie liniowe}
-\subsection{Chłodzenie kwadratowe}
-\subsection{Cykliczne podgrzewanie}
-\section{Dobór parametrów}
+% Podsumowanie
+\input{tekst/chapters/summary.tex}
 
-Jak zostało przedstawione w rozdziale \ref{chapter:sa-desc}, algorytm
-symulowanego wyżarzania korzysta z listy parametrów, które mają decydujący wpływ
-na specyfikę jego zachowania. 
+% \addtocontents{toc}{\protect\newpage}
 
-W tym rozdziale opisany został proces, mający na celu wyłonienie najlepszych
-parametrów, z uwzględnieniem różnych instancji jak i przestrzeni rozwiązań.
-
-
-\addtocontents{toc}{\protect\newpage}
-
-\chapter{Badania efektywności zaproponowanego rozwiązania}
-Rozdział ten opisuje badania mające na celu sprawdzenie efektywności
-zaproponowanego rozwiązania. Wpływ różnych elementów algorytmu na czas działania programu, jak i jakość
-uzyskiwanych rozwiązań został zbadany.
-
-\section{Założenia metodologiczne}
-\section{Opis czynników mogących wpłynąć na wyniki badań}
-
-\section{Przedstawienie zużycia pamięci przez zaproponowany program}
-INFO: TUTAJ BĘDZIE OPIS TEGO ILE PROCESOR SPĘDZA CZASU NA POSZCZEGÓLNYCH KROKACH. ILE
-NA OGRANICZENIU X ILE NA Y A ILE NA Z. ILE NA OCENIĘ ROZWIĄZANIA; ILE NA
-KONTAKT Z DB
-
-\section{Przedstawienie czasu działania zaproponowanego programu} \label{section:memory-usage}
-Rozdział \ref{section:memory-usage} przedstawia średnie zużycie pamięci
-komputera odpowiedzialnego za proces harmonogramowania.
-
-\section{Badanie wpływu temperatury początkowej na jakość rozwiązania}
-\section{Badanie wpływu funkcji wychładzania na jakość rozwiązania}
-\section{Badanie wpływu funkcji ruchu na jakość rozwiązania}
-\section{Badanie wpływu ilości zabiegów w instancji problemu na jakość rozwiązania}
-
-\chapter{Podsumowanie}

@@ -62,12 +62,12 @@
 \RequirePackage{esint}
 %\RequirePackage[version=4]{mhchem}
 \RequirePackage{mathspec} % wczytuje również fontspec
-\setmainfont{Latin Modern Roman}
-\setromanfont{Latin Modern Roman}
-\setsansfont{Latin Modern Sans}
-\setmonofont{Latin Modern Mono}
-\setmathrm{Latin Modern Math}
-\setmathfont(Digits,Latin)[Scale=MatchLowercase]{Latin Modern Math}
+%\setmainfont{Latin Modern Roman}
+%\setromanfont{Latin Modern Roman}
+%\setsansfont{Latin Modern Sans}
+%\setmonofont{Latin Modern Mono}
+%\setmathrm{Latin Modern Math}
+%\setmathfont(Digits,Latin)[Scale=MatchLowercase]{Latin Modern Math}
 \renewcommand{\familydefault}{\sfdefault}
 
 % ---------------------------------------------
@@ -550,6 +550,14 @@
     \cleardoublepage
 }
 
+% Symbole definiujące problem
+\newcommand{\sRef}{\emph{R}}
+\newcommand{\sSubRef}{\emph{r}}
+\newcommand{\sSol}{\emph{S}}
+\newcommand{\sTermSet}{\emph{s}}
+\newcommand{\sTerm}{\emph{t}}
+\newcommand{\sPlace}{\emph{p}}
+\newcommand{\sGap}{\emph{G}}
 
 % Streszczenie polskie
 \newcommand{\stronastreszczenia}{
