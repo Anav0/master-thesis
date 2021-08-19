@@ -30,7 +30,6 @@
 %\LoadClass[a4paper,11pt,twoside,openright]{report}
 % Alternatywnie: 12 pt
 \LoadClass[a4paper,12pt,oneside,openright]{book}
-
 %--------------------------------------
 % Zdefiniowanie parametru klasy
 %--------------------------------------
@@ -55,6 +54,8 @@
 % Lista krojów pisma (aka "czcionek") w Overleaf:
 % https://www.overleaf.com/learn/latex/Questions/Which%20OTF%20or%20TTF%20fonts%20are%20supported%20via%20fontspec%3F
 % ---------------------------------------------
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
 \RequirePackage{amsfonts}
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}

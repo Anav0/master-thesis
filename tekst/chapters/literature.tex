@@ -1,8 +1,121 @@
 \chapter{Przegląd literatury}
-W tym rozdziale zostały opisane wnioski, wyciągnięte z przeglądu dotychczasowych
-prac badawczych traktujących o problemach harmonogramowania.
+W tym rozdziale zostały opisane najpopularniejsze techniki stosowane przy
+rozwiązywaniu problemów harmonogramowania.
 \section{Możliwe rozwiązania}
-Do rozwiązania problemu harmonogramowania można użyć szeregu technik, algorytmów czy też sposobów. Badacze z powodzeniem zastosowali chociażby algorytm genetyczny, programowania liniowe oraz symulowane wyżarzanie\cite{marzec} do rozwiązania tego typu problemów.
-\subsection{Algorytm genetyczny}
-\subsection{Programowanie liniowe}
-\subsection{Symulowane wyżarzanie}
+Do rozwiązania problemu harmonogramowania można użyć szeregu technik, algorytmów
+czy też sposobów. Badacze z powodzeniem zastosowali chociażby algorytm
+genetyczny \cite{assi2018}, programowania całkowitoliczbowe \cite{yakoob2007} czy symulowane wyżarzanie\cite{marzec2020}.
+
+Szczegółową analizą stosowanych metod zajęli się S.A MirHassani i F. Habib
+\cite{habib2013}. Metody te można podzielić na kilka grup:
+
+\subsubsection{Metody sekwencyjne (z ang. \emph{sequential methods})}
+Korzystają z algorytmów deterministycznych ściśle uzależnionych od konkretnego
+problemu w celu uzyskania ułożenia wydarzeń w pożądanej kolejności. Np. od
+najistotniejszych do najmniej istotnych. Następnie każdemu z
+ułożonych wydarzeń przypisuje się slot czasowy (termin) tak aby nie powstał
+konflikt. Im wcześniej na liści znajduje się dane wydarzenie, tym korzystniejszy
+otrzyma slot czasowy.
+
+\subsubsection{Metody klastrowe (z ang. \emph{claustering methods})} 
+Reprezentują problem jako klastry spełniające
+ograniczenia. Klastry składające się z wydarzeń są następnie przypisywane do
+terminów, tak aby jak najlepiej spełnić stawiane preferencje. Grupowanie
+wydarzeń w klastry ma miejsce na początku procesu wyznaczania i może skutkować
+problemem w znalezieniu dobrego rozwiązania.
+
+\subsubsection{Metody bazujące na ograniczeniach (z ang. \emph{constraint-based methods})} 
+Opisują problem jako zbiór wydarzeń, który
+następnie przypisywane są zasoby tak aby spełnione zostały ograniczenia.
+
+\subsubsection{Metaheurystyki (z ang. \emph{meta-heuristics methods})}
+Metaheurystkami nazywany algorytmy niedeterministyczne, które są w stanie ocenić
+w czasie wielomianowym, jakość danego rozwiązania. Do grupy algorytmów
+metaheurystycznych zaliczamy: algorytm genetyczny, symulowane wyżarzanie,
+algorytm mrówkowy, tabu search etc.
+\section{Najpopularniejsze podejścia do rozwiązania problemu harmonogramowania}
+MirHassani i Habib'a zbadali częstotliwość wykorzystywania różnych
+algorytmów, oto najpopularniejsze z nich:
+\subsection{Algorytm genetyczny (z ang. \emph{genetic algorithm})}
+Podejście genetyczne \cite{komosinski2021} polega na reprezentacji rozwiązania za pomocą sekwencji
+bitów o stałej długości. Taka sekwencja jest nazywana genotypem. Zbiór genotypów nazywamy
+populacją. Populacja jest poddawana pewnym procesom mającym naśladować procesy
+zachodzące podczas doboru naturalnego. Algorytm zatem definiuje pewne parametry:
+\begin{itemize}
+	\item Wielkość populacji \emph{n}.
+	\item Prawdopodobieństwo krzyżowania \emph{cross}.
+	\item Prawdopodobieństwo mutacji \emph{mut}.
+\end{itemize}
+\begin{algorithm}
+\caption{Algorytm genetyczny}\label{alg-genetic}
+\begin{algorithmic}[1]
+\Procedure{Genetic}{$cross,mut,n,stopCriteria$}
+\State $t\gets 0$\Comment{Iteracja}
+\State $Init(P(t),n)$\Comment{Stwórz populację}
+\State $Eval(P(t))$\Comment{Oceń populację}
+\While{$stopCriteria()\not=true$}
+\State $t\gets t+1$
+\State $P(t)\gets P(t-1)$\Comment{Stwórz nową populację z poprzedniej}
+\State $Change(P(t),mut,cross)$\Comment{Zmień populację}
+\State $Eval(P(t))$\Comment{Oceń nową populację}
+\EndWhile\label{euclidendwhile}
+\State $\textbf{return}\ Best(P(t))$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+Istnieją dwa podejścia co do zmiany populacji. Podejście inkrementacyjne i
+podejście stanu stałego. Podejście inkrementacyjne za każdym razem zmienia tylko
+część istniejącej populacji, podczas gdy podejście stanu stałego za każdym razem
+tworzy nową populację w oparciu o tę poprzednią. Nowa populacja składa się z
+potomków osobników z poprzedniej populacji.
+
+\subsection{Przeszukiwanie z tabu (z ang. \emph{tabu search})}
+Przeszukiwanie tabu definiuje pewną listą tabu. Lista tabu składa się z par
+wartości. Pierwsza wartość definiuje nam rozwiązanie a druga czas, jaki musi
+upłynąć zanim algorytm znów będzie mógł "wrócić" do danego rozwiązania.
+
+Zastosowanie tej techniki pozwala wymusić na algorytmie sprawdzenie większej
+ilości unikatowych rozwiązań, bez cyklicznego wracania do tych już napotkanych
+przez algorytm.
+
+\subsection{Kolorowanie grafu (z ang. \emph{graph coloring})}
+Problem harmonogramowania można przekształcić w problem kolorowania grafu\cite{haan2006}.
+Wierzchołki grafu $v \in V$ reprezentują spotkania/wydarzenia, krawędzie
+$e \in E$ reprezentują konflikty między nimi a kolory wierzchołków reprezentują sloty czasowe
+(terminy). 
+
+Niestety rozwiązania uzyskiwane po rozwiązaniu problemu kolorowania grafu nie są
+dostatecznie zadowalające\cite{hann2006}, dlatego stosuje się specjalne fazy, 
+które mają za zadanie zwiększyć jakość ostatecznego rozwiązania. W pierwszych
+fazach uzyskuje się rozwiązanie dopuszczalne a w kolejnych wykorzystuje się
+przeszukiwanie z tabu lub inną metaheurystkę w celu ulepszenia dopuszczalnego
+rozwiązania.
+
+\subsection{Programowanie całkowitoliczbowe (z ang. \emph{Integer programming})}
+Reprezentuje problem jako zbiór liczb całkowitych. Z reguły do reprezentacji
+problemu stosuje się liczby całkowite oraz liczby binarne
+\cite{maaroufi2016mixed}. Jest to forma zbliżona do tej z której korzysta algorytm genetyczny.
+
+Rozwiązaniem problemu jest takie dobranie wartości liczbowych reprezentujących
+problem, aby jak najlepiej spełnić ograniczenia oraz preferencje.
+
+Ta technika jest bardzo popularna, ponieważ całkowitoliczbowa reprezentacja problemu daje
+większą kontrolę nad operacjami przeprowadzanymi na rozwiązaniu niż ma to miejsce w algorytmie
+genetycznym. Mutacja czy krzyżowanie zmienia bity bez wiedzy o tym, jaki aspekt
+rozwiązania jest przez nie kontrolowany.
+
+\section{Podsumowanie}
+Jak widać możliwych do zastosowania algorytmów nie brakuje. Algorytm genetyczny
+mimo iż najpopularniejszy, nie pozwala na dokładną kontrolę tego, co jest
+zmieniane w naszym rozwiązaniu.
+
+Przekształcenie problemu w problem kolorowania grafu wymaga dodatkowych kroków,
+które by poprawiły uzyskane rozwiązanie.
+
+Programowanie całkowitoliczbowe eliminuje część problemów napotkanych w
+algorytmie genetycznym, jednak ma ono problemy z dużymi instancjami problemu
+harmonogramowania.
+
+Z powyższych powodów, algorytmem wybranym do rozwiązania problemu
+harmonogramowania zabiegów rehabilitacyjnych jest symulowane wyżarzanie,
+szczegółowo opisane w rozdziale \ref{annealing}.
