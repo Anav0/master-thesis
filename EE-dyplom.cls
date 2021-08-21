@@ -379,6 +379,10 @@
     inputpath=src
 }
 \lstset{style=EEStyle}
+\renewcommand{\lstlistingname}{Algorytm}
+\renewcommand{\lstlistlistingname}{Lista algorytmów}
+\renewcommand{\ALG@name}{Algorytm}
+\renewcommand{\listalgorithmname}{Lista algorytmów}
 
 % ---------------------------------------------
 % Tabelki
@@ -676,5 +680,8 @@
     % spis tabel
     \listoftables
 
+    % lista algorytmów / fragmentów kodu
+    \listofalgorithms
+    \lstlistoflistings
     \easyappendices
 }
