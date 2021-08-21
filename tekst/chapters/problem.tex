@@ -21,8 +21,8 @@ osobno preferencji i ograniczeń twardych, tylko chęć spełnienia jak najwięk
 jako takich. To czy dane ograniczenie jest wymagane czy też nie, to szczegół
 implementacyjny uzależniony od specyfiki konkretnej wersji problemu.
 \pagebreak
-\section{Definicja problemu rehabilitacyjnego}
-\label{problem-definition}
+\section{Problem w wersji rehabilitacyjnej}
+\label{problem-desc}
 Placówki świadczące usługi rehabilitacyjne operują na tzw. zleceniach. Zlecenie
 jest to lista pomniejszych zleceń na pewien konkretny zabieg rehabilitacyjny.
 Każdy zabieg trwa określony czas oraz jest odbywany na konkretnej sali
@@ -84,8 +84,8 @@ dzień 01.01.2021 dla sali "Basen" może zawierać w sobie 30 terminów od godzi
 do 18:00 w interwałach 20 minutowych. Czas trwania terminu dla tej listy wynosi
 więc 20 minut. Terminy w zestawie mogą mieć różną długość: 5m, 10m, 15m, 20m, 30m
 lub 60m. % TODO: Sprawdź konkretne czasy
-
 \pagebreak
+\subsection{Ilość zabiegów w zleceniach}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{gfx/medinet-treatments-stats.pdf}
@@ -99,7 +99,8 @@ ilości zabiegów jest spowodowana szablonami, z których korzystają lekarze.
 Szablony nie są ściśle określone przez prawo ani nawet przez jednostkę, lecz są
 to pomocnicze elementy, które zależą od konkretnego lekarza i jego praktyki.
 \pagebreak
-\section{Ograniczenia}
+\subsection{Ograniczenia}
+\label{constraints}
 Wiemy już jak wygląda problem oraz jego rozwiązanie. Specyfika
 harmonogramowania zabiegów rehabilitacyjnych wymusza wzięcie pod uwagę
 konkretnych ograniczeń, które musi spełniać potencjalne rozwiązanie.
@@ -145,7 +146,8 @@ prostokąty.
 	\label{example-gaps-2}
 \end{figure}
 \pagebreak
-\section{Preferencje}
+\subsection{Preferencje}
+\label{preferences}
 Preferencje są to cechy, które powinno spełniać dobre rozwiązanie.
 Aczkolwiek ich spełnienie nie jest wymagane aby rozwiązanie było akceptowalne.
 \begin{enumerate}
@@ -154,6 +156,8 @@ Aczkolwiek ich spełnienie nie jest wymagane aby rozwiązanie było akceptowalne
 	\item{$P_3$ - Im mniej wykorzystanych dni tym lepiej.}
 	\item{$P_4$ - Im wcześniej zaczyna się dany zabieg w danym dniu tym lepiej.}
 	\item{$P_5$ - Im większa ilość zabiegów w danym dniu tym lepiej.}
+	\item{$P_6$ - Im wcześniej pacjent podejmie się wykonania zabiegów tym
+		lepiej.}
 \end{enumerate}
 
 Jak widać preferencję dotyczą głównie chęci minimalizacji czasu spędzonego na

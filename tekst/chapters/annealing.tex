@@ -17,11 +17,11 @@ Symulowane wyżarzanie \cite{metaheuristic-handbook} (z ang.\emph{simulated anne
 \State $Eval(sol)$
 \State $diff \gets Diff(sol,solChange)$
 \If{$sol.Value > beforeChange.Value$ \textbf{or} $rand() < exp(\frac{diff}{temp})$}
-\If{$sol.Value > bestSol.Value$}
+\If{$sol.Value > bestSol.Value$}\label{annealing-comp}
 \State$bestSol \gets sol$
 \EndIf
 \Else
-\State $sol \gets beforeChange$
+\State $sol \gets beforeChange$\label{annealing-copy}
 \EndIf
 \State$Cool(temp)$\Comment{Zmień temperaturę}
 \EndWhile\label{euclidendwhile}

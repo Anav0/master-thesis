@@ -1,19 +1,21 @@
+\newcolumntype{L}[1]{>{\hsize=#1\hsize\raggedright\arraybackslash}X}%
+\newcolumntype{R}[1]{>{\hsize=#1\hsize\raggedleft\arraybackslash}X}%
+\newcolumntype{C}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}%
+
 \chapter{Propozycja rozwiązania problemu harmonogramowania zabiegów}
 \label{solution}
 Znając specyfikę problemu oraz metaheurystykę, która pomoże w jego rozwiązaniu,
 można przejść do opisu proponowanego rozwiązania. W następnych sekcjach został
 opisany projekt i implementacja systemu, odpowiedzialnego za harmonogramowanie zabiegów rehabilitacyjnych.
-
 \section{Implementacja poszczególnych elementów SA}
 Schemat działania symulowanego wyżarzania z listingu \ref{alg-annealing} wymaga
 zdefiniowania pewnych niezbędnych elementów takich jak: $Eval(sol)$,
-$Change(sol)$,$Cool(sol)$, $initialSol$, $initialTemp$ etc. Kolejne sekcje tego rozdziału
+$Change(sol)$, $Cool(sol)$, $initialSol$, $initialTemp$ etc. Kolejne sekcje tego rozdziału
 szczegółowo opisują rzeczywistą implementację tychże elementów. 
 \pagebreak
-\subsection{Pojedyncza instancja problemu}
-Problem harmonogramowania zabiegów rehabilitacyjnych został zdefiniowany w
-rozdziale \ref{problem-definition} jako: $SP=\{\sRef,start,end\}$, gdzie \sRef\ jest
-konkretnym zleceniem, złożonym z $n$ pomniejszych zleceń \sSubRef\ na konkretny zabieg. W oparciu o te informacje możemy przedstawić pojedynczą instancję problemu jako:
+\subsection{Reprezentacja pojedynczej instancji}
+Bazując na opisie z rozdziału \ref{problem-desc}, możemy przedstawić instancję
+problemu jako:
 \begin{table}[h]
 	\centering
 	\begin{tabular}{ | m{0.3\textwidth} | m{0.7\textwidth} | }
@@ -41,55 +43,192 @@ konkretnym zleceniem, złożonym z $n$ pomniejszych zleceń \sSubRef\ na konkret
 \caption{Pojedyncza instancja problemu rehabilitacyjnego}
 \end{table}
 \subsection{Reprezentacja rozwiązania}
-Rozwiązanie zostało zdefiniowane w rozdziale \ref{problem} jako:
+Symulowane wyżarzanie musi przechowywać informację o trzech rozwiązaniach:
+$sol$, $bestSol$ oraz $beforeChange$. W przypadku złego ruchu - takiego, które
+nie zostało uznane za warte przeprowadzenia - program musi głęboko skopiować
+jedno rozwiązanie - to przed zmianą - do drugiego - tego po zmianie
+(linijka \ref{annealing-copy} algorytmu). Aby ten
+proces był jak najefektywniejszy, warto zadbać o to, aby typy pól
+naszego rozwiązania było łatwo klonowalne.
+
+Rozwiązanie zostało opisane w sekcji \ref{problem-desc} jako de facto zbiór par: \emph{id
+zlecenia} - \emph{id terminu} przyczym jedno zlecenie może mieć przypisany
+więcej niż jeden termin. 
+
+Mając ten opis w pamięci, rozwiązanie możemy przedstawić jako:
 $\sSol=\{\sTermSet_1,\sTermSet_2...\sTermSet_n\}$, gdzie $\sTermSet_i$ jest
 zbiorem terminów \sTerm\ w których ma się odbyć i'ty zabieg rehabilitacyjny.
+Pozycja elementów $s$ w tablicy $S_{trm}$ odpowiada konkretnemu zabiegowi $z$ w
+tablicy $R_{id}$. $s_i$ jest zbiorem terminów wyznaczonych dla zabiegu o id
+$z_i$.
 \begin{table}[h]
 	\begin{tabular}{ | m{0.2\textwidth} | m{0.8\textwidth} | }
 		\hline
 		$S_{trm}=[s_1,s_2...s_n]$ & $n$ elementowa tablica zawierająca tablice
-		(tablica tablic) wypełnioną id terminów \\
+		(tablica tablic) wypełnioną identyfikatorami terminów \\
 		\hline
 		$I_{trm}=[p_1,p_2...p_n]$ & $n$ elementowa tablica zawierająca pozycję i'tego terminu w liście $Term$.\\
 		\hline
 \end{tabular}
 \caption{Pojedyncze rozwiązanie problemu rehabilitacyjnego}
 \end{table}
-Pozycja elementów $s$ w tablicy $S_{trm}$ odpowiada konkretnemu zabiegowi $z$ w tablicy
-$R_{id}$. $s_i$ jest zbiorem terminów wyznaczonych dla zabiegu o id $z_i$.
+\pagebreak
 \subsection{Ocena rozwiązania}
 Wiedząc jak program reprezentuje instancję problemu oraz jego potencjalne
-rozwiązanie, można określić funkcję odpowiedzialną za ocenę generowanych
-rozwiązań.
+rozwiązanie, można określić funkcje odpowiedzialne za ocenę rozwiązań
+(\nameref{preferences} \ref{preferences} i \nameref{constraints} \ref{constraints}).
 
-Zgodnie z przedstawionym schematem z rysunku \ref{alg-annealing}, symulowane
-wyżarzanie
+Symulowane wyżarzanie do porównywania jakości rezultatów używa liczby (linijka
+\ref{annealing-comp} algorytmu). Jeśli rozwiązanie jest dopuszczalne, wartością
+rozwiązania jest wynik funkcji $V(sol)$. Jeśli rozwiązanie jest niedopuszczalne
+jest to wynik funkcji $K(sol)$.
+\begin{equation}
+	K(sol) = \sum_{n=2}^{i=1} K_i(sol)
+\end{equation}
 
-Wartość rozwiązania jest opisana przez jedną z dwóch liczb. Jeśli rozwiązanie
-jest dopuszczalne wartością rozwiązania jest wynik funkcji $V(sol)$. Jeśli
-rozwiązanie jest niedopuszczalne jest to wynik funkcji $P(sol)$.
-
-Mamy dane rozwiązanie $sol$, które chcemy sprawdzić pod kątem dopuszczalności.
-Funkcja obliczająca karę wygląda następująco: $P(sol) = \sum_m^{i=0} P_i(sol)$, gdzie:
-\begin{center}
-	\begin{tabular}{ m{0.2\textwidth} | m{0.8\textwidth} }
-		$m$ &  liczba pomniejszych funkcji kary $P_1,P_2...P_m$\\
-		$P_1(sol)$ & zwraca ilość zbiorów terminów $s \in S_{trm}$, które zaczynają się w tym
-		samym dniu i są dla tego samego typu zabiegu. \\
-		$P_2(sol)$ & zwraca ilość zbiorów terminów $s \in S_{trm}$,
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{ | C{0.4} | L{2.3} | C{0.3} | }		
+	\hline
+		$K_1(sol)$ & Zwraca ilość zbiorów terminów $s \in S_{trm}$, które zaczynają się w tym
+		samym dniu i są dla tego samego typu zabiegu. & $C_1$ \\
+		\hline
+		$K_2(sol)$ & Zwraca ilość zbiorów terminów $s \in S_{trm}$,
 		które nie zachowują odpowiedniej przerwy określonej w słowniku
-		$G$. \\
-		$P_3(sol)$ & funkcja sprawdzająca spełnienie kryterium $C_3$ \\
-		$P_4(sol)$ & funkcja sprawdzająca spełnienie kryterium $C_4$ \\
-\end{tabular}
-\end{center}
-\begin{enumerate}
-	\item{$C_1$ - Dwa zabiegi rehabilitacyjne tego samego typu nie mogą być
-		zaplanowane na ten sam dzień.}
-	\item{$C_2$ - Dwa zabiegi rehabilitacyjne nie mogą być zaplanowane w na ten sam czas.}
-	\item{$C_3$ - Zabiegi określone w słowniku \sGap\ muszą zachować określony tam odstęp.}
-	\item{$C_4$ - Zabiegi nie mogą zostać zapisane w terminach, które są zapełnione.}
-	\item{$C_5$ - Terminy przypisane danemu zabiegowi muszą być po sobie następujące.}
-\end{enumerate}
-\subsection{Lista preferencji}
-\subsection{Wykorzystane schematy chłodzenia}
+		$G$. & $C_3$ \\
+		\hline
+\end{tabularx}
+\end{table}
+
+\begin{equation}
+	V(sol) = \sum_{n=5}^{i=1} W(v_i) * v_i
+\end{equation}
+
+\begin{table}[h]
+	\begin{tabularx}{\textwidth}{ | C{0.4} | L{2.3} | C{0.3} | }
+		\hline
+		$W(v_i)$ &  Zwraca wagę dla danej pomniejsze wartości oceny. &  \\
+		\hline
+		$v_1$ & Sumuje dla każdego zajętego dnia różnicę między momentem wyjścia z
+		kliniki (koniec najpóźniejszego terminu w danym dniu) a momentem
+		przyjścia (start najwcześniejszego terminu w danym
+		dniu). & $P_1$ i $P_2$ \\
+		\hline
+		$v_2$ & Znormalizowana ilość zajętych dni. Im mniej tym lepiej. & $P_3$\\
+		\hline
+		$v_3$ & Suma różnicy między
+		najwcześniejszym możliwym terminem a tym faktycznie
+		najwcześniejszym. & $P_4$\\
+		\hline
+		$v_4$ & Suma ilość wyznaczonych
+		wizyt, normalizuje wynik i odejmuje go od 1 aby uzyskać wartość
+		poprawną z punktu widzenia problemu minimalizacji. Im więcej
+		wizyt jednego dnia, tym lepiej. &
+		$P_5$\\
+		\hline
+		$v_5$ & Suma odległości, między zajętymi dniami a \emph{start}.& $P_6$\\
+		\hline
+\end{tabularx}
+\end{table}
+
+
+\subsubsection{Niewymienione ograniczenia}
+Ograniczenia $C_2$ i $C_5$ nie mogą zostać złamane ze względu na specyfikę
+ruchu, która to uniemożliwia. Ruch został szczegółowo opisany w kolejnej sekcji.
+Ograniczenie $C_4$ jest rozwiązane na początku działania programu, ponieważ
+lista \sTermsList\ jest zapełniona tylko takimi terminami, których sala ma
+przynajmniej jedno miejsce wolne.
+
+\subsubsection{Normalizacja} 
+Każda pomniejsza wartość oceny jest normalizowana ostateczną sumą tak, aby mieściła się w
+zakresie od 0 do 1. Liczba 1 oznacza najgorszy możliwy wynik dla
+danego dnia a 0 najlepszy. Bez takiej normalizacji niemożliwe byłoby użycie wag.
+
+\subsubsection{Średnia} 
+Wyniki pomniejszych wartości oceny za wyjątkiem $v_4$ są dodatkowo na końcu dzielone przez ilość
+wykorzystanych dni. Jeśli do zaplanowania zlecenia użyto 10 terminów - 6 zostało
+przewidzianych na poniedziałek a 4 na wtorek - to ilość wykorzystanych dni jest
+równa 2.
+
+\begin{algorithm}
+	\caption{Funkcja oceny $V(sol)$}\label{fn-obj}
+\begin{algorithmic}[1]
+\Procedure{V}{$sol$}
+\State $v1,v2,v3,v4,v5 \gets 0$\Comment{Pomniejsze wartości oceny}
+\State $start \gets GetStart()$\Comment{Daty definiujące zakres wyznaczania}
+\State $end \gets GetEnd()$
+\State $numberOfDays \gets 0$
+
+\For{ $day\ in\ UsedDays()$ }\Comment{Dni wykorzystane przez $s \in S$}
+\State $numberOfDays \gets numberOfDays+1$
+\State $numberOfVisits \gets GetVisitsFor(day)$
+
+\State $firstTerm \gets First(day)$\Comment{Najwcześniejszy termin.}
+\State $lastTerm \gets Last(day)$\Comment{Najpóźniejszy termin.}
+
+\State $v1 \gets v1 + Norm(day-start,start,end)$
+\State $v2 \gets v2 + (1 - Norm(numberOfVisits,0,20))$
+
+\If{$numberOfVisits > 1$}
+\State $v3 \gets v3 + Norm(lastTerm.StartDate-firstTerm.EndDate,start,end)$
+\EndIf
+
+\State $v4 \gets Norm(firstTerm.StartDate,start,end)$
+
+\EndFor
+\State $v1 \gets v1*W(v1)$
+\State $v2 \gets v2*W(v2)$
+\State $v3 \gets v3*W(v3)$
+\State $v4 \gets v4*W(v4)$
+\State $v5 \gets Norm(numberOfDays,0,TotalDays())*W(v5)$
+
+\State \textbf{return} $((v1+v2+v3+v4)/numberOfDays)+v5$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Funkcja normalizująca}\label{fn-normalize}
+\begin{algorithmic}[1]
+\Function{$Norm$}{$value,min,max$}
+\State \textbf{return} $(value-min)/(max-min)$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\pagebreak
+\subsection{Zmiana rozwiązania}
+W każdej iteracji pętli $while$ algorytm zmienia bieżące rozwiązanie. Funkcja
+$Change(sol)$ zmienia jeden losowy zbiór terminów ze struktury $S_{trm}$.
+Po wybraniu losowego $s \in S_{trm}$ następuje poszukiwanie nowych terminów $r$,
+które mogłyby go wypełnić. Losowany jest nowy termin z listy $Trms$, on będzie
+potencjalnie pierwszym terminem zbioru $r$. Jeśli termin ten jest bezkonfliktowy
+i jego czas trwania jest większy lub równy długości trwania zabiegu, wtedy ruch
+jest zakończony. Jeśli termin jest bezkonfliktowy ale jego długość nie pozwala
+na odbycie terminu, należy znaleźć kolejne terminy, które umożliwią odbycie
+zabiegu. Jeśli nie można znaleźć sąsiednich terminów lub termin jest
+konfliktowy, wtedy początkowy termin $r[0]$ jest zamieniany na swojego
+najbliższego niesprawdzonego sąsiada i cały proces sprawdzenia i ewentualnego
+poszukiwania sąsiadów jest powtarzany.
+
+\begin{algorithm}
+	\caption{Funkcja zmieniająca rozwiązanie}\label{fn-change}
+\begin{algorithmic}[1]
+\Procedure{$Change$}{$sol$}
+\State $i \gets Rand(0,sol.S_{trm}.length)$\Comment{Wybór losowego indeksu}
+\State $s \gets AtIndex(i,sol.S_{trm})$\Comment{Terminy $s$ do zmiany}
+\State $t \gets AtIndex(i,sol.R_{dur})$\Comment{Czas trwania zabiegu}
+\State $r \gets EmptyArr()$
+\State $r[0] \gets Rand(sol.Terms)$\Comment{Wybór losowego terminu początkowego}
+\State $r \gets FindNearbyTerms(r[0], t_{dur})$
+\While{$IsInConflict(r,sol.S_{trm})$}
+\State $r[0] \gets Neighbour(r[0],sol.Terms)$\Comment{Najbliższy niesprawdzony sąsiad}
+\State $r \gets FindNearbyTerms(r[0], t_{dur})$
+\EndWhile
+\State $s \gets r$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+Wykorzystanie funkcji $IsInConflict$ i $FindNearbyTerms$ nie dopuszcza do sytuacji łamiącej
+kryteria $C_2$ i $C_5$ (\ref{constraints}).
+
+\subsection{Schemat chłodzenia}
+\subsection{Kryterium stopu}

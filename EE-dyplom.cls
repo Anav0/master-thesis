@@ -387,7 +387,16 @@
 % ---------------------------------------------
 % Tabelki
 % ---------------------------------------------
+\RequirePackage{tabularx}
 \renewcommand{\arraystretch}{1.4}
+
+% ---------------------------------------------
+% Wzory
+% ---------------------------------------------
+\newenvironment{conditions}
+{\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l{2in}<{$} @{${} \ {}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+
 % ---------------------------------------------
 % Ozdobniki ścieżek plików, menu i klawiszy
 % ---------------------------------------------
@@ -567,6 +576,7 @@
 \newcommand{\sTerm}{\emph{t}}
 \newcommand{\sPlace}{\emph{p}}
 \newcommand{\sGap}{\emph{G}}
+\newcommand{\sTermsList}{\emph{Terms}}
 
 % Streszczenie polskie
 \newcommand{\stronastreszczenia}{
@@ -683,5 +693,6 @@
     % lista algorytmów / fragmentów kodu
     \listofalgorithms
     \lstlistoflistings
+
     \easyappendices
 }
