@@ -381,6 +381,10 @@
 \lstset{style=EEStyle}
 
 % ---------------------------------------------
+% Tabelki
+% ---------------------------------------------
+\renewcommand{\arraystretch}{1.4}
+% ---------------------------------------------
 % Ozdobniki ścieżek plików, menu i klawiszy
 % ---------------------------------------------
 \RequirePackage[os=win]{menukeys}
