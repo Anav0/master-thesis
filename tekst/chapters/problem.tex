@@ -20,61 +20,64 @@ najlepiej spełnić konkretne ograniczenia. Wariant podstawowy nie definiuje
 osobno preferencji i ograniczeń twardych, tylko chęć spełnienia jak największej ilości ograniczeń
 jako takich. To czy dane ograniczenie jest wymagane czy też nie, to szczegół
 implementacyjny uzależniony od specyfiki konkretnej wersji problemu.
-
-Jak się okaże w kolejnym rozdziale, problem harmonogramowania zabiegów
-rehabilitacyjnych jest de facto nieco bardziej skomplikowaną wersją ogólnego
-problemu harmonogramowania.
 \pagebreak
 \section{Definicja problemu rehabilitacyjnego}
+\label{problem-definition}
 Placówki świadczące usługi rehabilitacyjne operują na tzw. zleceniach. Zlecenie
-\sRef\ jest to lista pomniejszych zleceń \sSubRef\ na pewien konkretny zabieg rehabilitacyjny.
-Każdy zabieg trwa określoną ilość czasu oraz jest odbywany na konkretnej sali
+jest to lista pomniejszych zleceń na pewien konkretny zabieg rehabilitacyjny.
+Każdy zabieg trwa określony czas oraz jest odbywany na konkretnej sali
 zabiegowej. Zadaniem pracownika jest takie przypisanie terminów oraz sal do konkretnych
 zabiegów, aby jak najlepiej spełnić ograniczenia nadane przez placówkę.
 
-\begin{figure}[h]
+\begin{table}[h]
 	\centering
-	\begin{tabular}{ l l l l }
-	Id zlecenia & Id zabiegu & Nazwa zabiegu & Czas trwania zabiegu \\
+	\begin{tabular}{ | c | c | c | c | }
+		\hline
+	\bfseries Id zlecenia & \bfseries Id zabiegu & \bfseries Nazwa zabiegu & \bfseries Czas trwania zabiegu \\
 	\hline
 	14123 & 0 & Laseroterapia & 15m \\
+		\hline
 	14124 & 0 & Laseroterapia & 15m \\
+		\hline
 	14125 & 2 & Krioterapia & 7m \\
+		\hline
 	\end{tabular}
-	\caption{Przykładowe zlecenie \sRef}
+	\caption{Przykładowe zlecenie}
 	\label{example-referral}
-\end{figure}
+\end{table}
 
-Problem można zdefiniować jako: \emph{$SP=\{\sRef, start, end\}$}. Gdzie \sRef\
-jest to lista zabiegów, \emph{start} jest datą początkową a \emph{end} końcową w
-obrębie których mają się znaleźć wyznaczone terminy dla zabiegów z listy \sRef.
-Rozwiązaniem problemu \emph{SP} jest
-\emph{$\sSol=\{\sTermSet_1,\sTermSet_2...\sTermSet_n\}$}, gdzie \sSol\ jest
-zbiorem pomniejszych zbiorów \sTermSet, które zawierają w sobie konkretne terminy
-\sTerm. Pozycja zbiorów \sTermSet\ określa to któremu zabiegowi odpowiadają dane
-terminy. Trzymając się przykładu z rysunku \ref{example-referral}:
+Rozwiązaniem przykładowego zlecenia z tabeli \ref{example-referral}
+jest:
 
-\begin{figure}[h]
+\begin{table}[h]
 	\centering
-	\begin{tabular}{ l l l l }
-	Id zlecenia & Id terminu & Początek terminu & Czas trwania terminu \\
+	\begin{tabular}{ | c | c | c | c | }
+		\hline
+	\bfseries Id zlecenia & \bfseries Id terminu & \bfseries Początek terminu & \bfseries Czas trwania terminu \\
 	\hline
 	14123 & 645 & 08:00 01.01.2021 & 10m \\
+	\hline
 	14123 & 646 & 08:10 01.01.2021 & 10m \\
+	\hline
 	14124 & 816 & 10:00 02.01.2021 & 20m \\
+	\hline
 	14125 & 910 & 08:30 01.01.2021 & 15m \\
+	\hline
 	\end{tabular}
-	\caption{Przykładowe rozwiązanie \emph{S}}
+	\caption{Przykładowe rozwiązanie zlecenia}
 	\label{example-solution}
-\end{figure}
+\end{table}
 
 Zauważmy, że pierwsze dwa terminy są przypisane do tego samego zlecenia,
 ponieważ czas trwania terminu jest mniejszy niż czas trwania zabiegu.
 
-To jakie terminy \sTerm\ mogą zostać przypisane danemu zleceniu \sSubRef,\
-zależy od typu zabiegu. Każdy typ zabiegu np. laseroterapia, masaż etc. jest
+To co interesuje nas najbardziej to \emph{id zlecenia i} \emph{id terminu}. To
+one stanowią najistotniejszy człon rozwiązania.
+
+To jakie terminy mogą zostać przypisane danemu zleceniu,
+zależy od typu zabiegu. Każdy typ zabiegu np. \emph{laseroterapia}, \emph{masaż} etc. jest
 połączony z odpowiednimi \emph{listami terminów}. Listy terminów określają
-konkretne terminy na dany dzień dla danej sali zabiegowej \sPlace, a sama sala
+konkretne terminy na dany dzień dla danej sali zabiegowej, a sama sala
 ogranicza nam zabiegi, które mogą się w niej wykonywać. Można śmiało myśląc o
 listach terminów, myśleć o konkretnych dniach miesiąca. Przykładowo lista na
 dzień 01.01.2021 dla sali "Basen" może zawierać w sobie 30 terminów od godziny 08:00
@@ -97,42 +100,44 @@ Szablony nie są ściśle określone przez prawo ani nawet przez jednostkę, lec
 to pomocnicze elementy, które zależą od konkretnego lekarza i jego praktyki.
 \pagebreak
 \section{Ograniczenia}
-Wiemy już jak wygląda problem oraz jego rozwiązanie. Specyfika problemu
+Wiemy już jak wygląda problem oraz jego rozwiązanie. Specyfika
 harmonogramowania zabiegów rehabilitacyjnych wymusza wzięcie pod uwagę
-dodatkowych ograniczeń, które musi spełniać rozwiązanie \sSol.
+konkretnych ograniczeń, które musi spełniać potencjalne rozwiązanie.
 \begin{enumerate}
 	\item{$C_1$ - Dwa zabiegi rehabilitacyjne tego samego typu nie mogą być
 		zaplanowane na ten sam dzień.}
 	\item{$C_2$ - Dwa zabiegi rehabilitacyjne nie mogą być zaplanowane w na ten sam czas.}
 	\item{$C_3$ - Zabiegi określone w słowniku \sGap\ muszą zachować określony tam odstęp.}
 	\item{$C_4$ - Zabiegi nie mogą zostać zapisane w terminach, które są zapełnione.}
+	\item{$C_5$ - Terminy przypisane danemu zabiegowi muszą być po sobie
+		następujące.}
 \end{enumerate}
-Słownik \sGap\ jest to struktura przechowująca informację o minimalnych
-przerwach między danymi typami zabiegów.
-Jak widać na poniższych rysunkach, zabiegi mogą mieć zdefiniowaną różną przerwę
-w zależności od tego, który zabieg występuje jako pierwszy w danym dniu. Kolorem
-czerwonym została zaznaczona wymagana przerwa, natomiast zabieg 0 i 1
-reprezentowane są przez odpowiednio oznaczone prostokąty.
-\\
-\begin{figure}[h]
+Aby móc spełnić ograniczenie $C_3$ musimy widzieć, jakie przerwy są zdefiniowane
+między pewnymi typami zabiegów. Jak widać na poniższych rysunkach, zabiegi mogą
+mieć zdefiniowaną różną przerwę w zależności od tego, który zabieg występuje
+jako pierwszy w danym dniu. Kolorem czerwonym została zaznaczona wymagana
+przerwa, natomiast zabieg 0 i 1 reprezentowane są przez odpowiednio oznaczone
+prostokąty.
+\begin{table}[h]
 	\centering
-	\begin{tabular}{ l l l l l }
-		Id zabiegu & Id następnego zabiegu & Wymagana przerwa \\
-	\hline
+	\begin{tabular}{ | c | c | c | c | c | }
+		\hline
+		\bfseries Id zabiegu & \bfseries Id następnego zabiegu & \bfseries Wymagana przerwa \\
+		\hline
 		1 & 0 & 60m \\
+		\hline
 		0 & 1 & 20m \\
+		\hline
 	\end{tabular}
-	\caption{Przykładowa struktura \sGap\ definiująca wymagane przerwy}
+	\caption{Przykład wymaganych przerw między zabiegami}
 	\label{example-gaps}
-\end{figure}
-\\
+\end{table}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{gfx/gap_1.pdf}
 	\caption{Wizualizacja wymaganej przerwy między zabiegami (A)}
 	\label{example-gaps-1}
 \end{figure}
-\\
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{gfx/gap_2.pdf}

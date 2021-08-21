@@ -4,19 +4,92 @@ Znając specyfikę problemu oraz metaheurystykę, która pomoże w jego rozwiąz
 można przejść do opisu proponowanego rozwiązania. W następnych sekcjach został
 opisany projekt i implementacja systemu, odpowiedzialnego za harmonogramowanie zabiegów rehabilitacyjnych.
 
-\section{Opis pojedynczej instancji problemu}
-\section{Opis rozwiązania problemu}
-\section{Lista ograniczeń twardych}
-\section{Lista preferencji}
-\section{Wykorzystane schematy chłodzenia}
-\subsection{Chłodzenie liniowe}
-\subsection{Chłodzenie kwadratowe}
-\subsection{Cykliczne podgrzewanie}
-\section{Dobór parametrów}
+\section{Implementacja poszczególnych elementów SA}
+Schemat działania symulowanego wyżarzania z listingu \ref{alg-annealing} wymaga
+zdefiniowania pewnych niezbędnych elementów takich jak: $Eval(sol)$,
+$Change(sol)$,$Cool(sol)$, $initialSol$, $initialTemp$ etc. Kolejne sekcje tego rozdziału
+szczegółowo opisują rzeczywistą implementację tychże elementów. 
+\pagebreak
+\subsection{Pojedyncza instancja problemu}
+Problem harmonogramowania zabiegów rehabilitacyjnych został zdefiniowany w
+rozdziale \ref{problem-definition} jako: $SP=\{\sRef,start,end\}$, gdzie \sRef\ jest
+konkretnym zleceniem, złożonym z $n$ pomniejszych zleceń \sSubRef\ na konkretny zabieg. W oparciu o te informacje możemy przedstawić pojedynczą instancję problemu jako:
+\begin{table}[h]
+	\centering
+	\begin{tabular}{ | m{0.3\textwidth} | m{0.7\textwidth} | }
+	\hline
+	$R_{id}=[z_1,z_2...z_n]$ & $n$ elementowa tablica zawierająca id zabiegów. \\
+	\hline
+	$R_{dur}=[d_1,d_2...d_n]$ & $n$ elementowa tablica zawierająca czas trwania zabiegów. \\
+	\hline
+	$P_{id}$ & identyfikator pacjenta dla którego wyznaczamy zabiegi. \\
+	\hline
+	$G$ & słownik zawierający w sobie informację o wymaganych przerwach
+	między zabiegami. Kluczem słownika jest krotka $(z_x,z_y)$, gdzie $z_x$
+	i $z_y$ to id zabiegów między którymi ma być zachowana przerwa a
+	wartość jest to liczba określająca minimalną przerwę w minutach. \\
+	\hline
+	$start,\ end$ & daty określające ramy wyznaczania. \\
+	\hline
+	$Trms = [trm_1,trm_2...trm_j]$ & jest listą wszystkich terminów między
+	$start$ i $end$ posortowaną według daty ich rozpoczęcia.
+	Pojedynczy termin jest strukturą zawierającą informację o dacie
+	swojego rozpoczęcia, miejscu wykonania zabiegu i jego pojemności, czasie trwania, oraz
+	zabiegu jaki może być do niego przypisany.\\
+	\hline
+\end{tabular}
+\caption{Pojedyncza instancja problemu rehabilitacyjnego}
+\end{table}
+\subsection{Reprezentacja rozwiązania}
+Rozwiązanie zostało zdefiniowane w rozdziale \ref{problem} jako:
+$\sSol=\{\sTermSet_1,\sTermSet_2...\sTermSet_n\}$, gdzie $\sTermSet_i$ jest
+zbiorem terminów \sTerm\ w których ma się odbyć i'ty zabieg rehabilitacyjny.
+\begin{table}[h]
+	\begin{tabular}{ | m{0.2\textwidth} | m{0.8\textwidth} | }
+		\hline
+		$S_{trm}=[s_1,s_2...s_n]$ & $n$ elementowa tablica zawierająca tablice
+		(tablica tablic) wypełnioną id terminów \\
+		\hline
+		$I_{trm}=[p_1,p_2...p_n]$ & $n$ elementowa tablica zawierająca pozycję i'tego terminu w liście $Term$.\\
+		\hline
+\end{tabular}
+\caption{Pojedyncze rozwiązanie problemu rehabilitacyjnego}
+\end{table}
+Pozycja elementów $s$ w tablicy $S_{trm}$ odpowiada konkretnemu zabiegowi $z$ w tablicy
+$R_{id}$. $s_i$ jest zbiorem terminów wyznaczonych dla zabiegu o id $z_i$.
+\subsection{Ocena rozwiązania}
+Wiedząc jak program reprezentuje instancję problemu oraz jego potencjalne
+rozwiązanie, można określić funkcję odpowiedzialną za ocenę generowanych
+rozwiązań.
 
-Jak zostało przedstawione w rozdziale \ref{chapter:sa-desc}, algorytm
-symulowanego wyżarzania korzysta z listy parametrów, które mają decydujący wpływ
-na specyfikę jego zachowania.
+Zgodnie z przedstawionym schematem z rysunku \ref{alg-annealing}, symulowane
+wyżarzanie
 
-W tym rozdziale opisany został proces, mający na celu wyłonienie najlepszych
-parametrów, z uwzględnieniem różnych instancji jak i przestrzeni rozwiązań.
+Wartość rozwiązania jest opisana przez jedną z dwóch liczb. Jeśli rozwiązanie
+jest dopuszczalne wartością rozwiązania jest wynik funkcji $V(sol)$. Jeśli
+rozwiązanie jest niedopuszczalne jest to wynik funkcji $P(sol)$.
+
+Mamy dane rozwiązanie $sol$, które chcemy sprawdzić pod kątem dopuszczalności.
+Funkcja obliczająca karę wygląda następująco: $P(sol) = \sum_m^{i=0} P_i(sol)$, gdzie:
+\begin{center}
+	\begin{tabular}{ m{0.2\textwidth} | m{0.8\textwidth} }
+		$m$ &  liczba pomniejszych funkcji kary $P_1,P_2...P_m$\\
+		$P_1(sol)$ & zwraca ilość zbiorów terminów $s \in S_{trm}$, które zaczynają się w tym
+		samym dniu i są dla tego samego typu zabiegu. \\
+		$P_2(sol)$ & zwraca ilość zbiorów terminów $s \in S_{trm}$,
+		które nie zachowują odpowiedniej przerwy określonej w słowniku
+		$G$. \\
+		$P_3(sol)$ & funkcja sprawdzająca spełnienie kryterium $C_3$ \\
+		$P_4(sol)$ & funkcja sprawdzająca spełnienie kryterium $C_4$ \\
+\end{tabular}
+\end{center}
+\begin{enumerate}
+	\item{$C_1$ - Dwa zabiegi rehabilitacyjne tego samego typu nie mogą być
+		zaplanowane na ten sam dzień.}
+	\item{$C_2$ - Dwa zabiegi rehabilitacyjne nie mogą być zaplanowane w na ten sam czas.}
+	\item{$C_3$ - Zabiegi określone w słowniku \sGap\ muszą zachować określony tam odstęp.}
+	\item{$C_4$ - Zabiegi nie mogą zostać zapisane w terminach, które są zapełnione.}
+	\item{$C_5$ - Terminy przypisane danemu zabiegowi muszą być po sobie następujące.}
+\end{enumerate}
+\subsection{Lista preferencji}
+\subsection{Wykorzystane schematy chłodzenia}
