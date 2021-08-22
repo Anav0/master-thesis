@@ -29,7 +29,7 @@ Symulowane wyżarzanie \cite{metaheuristic-handbook} (z ang.\emph{simulated anne
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-\pagebreak
+\newpage
 Jak widać na schemacie, symulowane wyżarzanie nieco przypomina algorytm
 genetyczny. Jest to jednak podobieństwo powierzchowne. Obie heurystyki działają
 w pętli $while$. Warunkiem wyjścia z pętli może być maksymalna ilość kroków,
@@ -75,7 +75,7 @@ Często spotykaną formą zmiany rozwiązania w problemie harmonogramowania, jes
 zmiana przypisania wydarzenia do terminu. Nowy termin może zostać wybrany losowo
 lub za pomocą pomocniczych funkcji przeszukiwania lokalnego (z ang.
 \emph{local search}).
-\pagebreak
+\newpage
 \section{Specyfika funkcji oceny}
 Funkcja oceny $Eval(sol)$ przypisuje wartość ocenianemu rozwiązaniu. Funkcja ta
 może obliczyć wartość rozwiązania na dwa sposoby:
@@ -119,8 +119,9 @@ oddalone od punktu w którym znajduje się rozwiązanie początkowe.
 	\caption{Przykładowe funkcje obniżające temperaturę}
 	\label{example-cooling-functions}
 \end{figure}
-\pagebreak
+\newpage
 \section{Kryteria stopu}
+\label{sec:stop-criteria}
 Algorytm działa w pętli $while$ która ulega przerwaniu jeśli spełniony zostanie
 warunek stopu. Jeśli nie wykorzystujemy algorytmu w wersji online czyli takiej,
 która ciągle na bieżąco stara się znaleźć najlepsze rozwiązanie przy

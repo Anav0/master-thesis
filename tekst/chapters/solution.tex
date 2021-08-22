@@ -7,12 +7,30 @@
 Znając specyfikę problemu oraz metaheurystykę, która pomoże w jego rozwiązaniu,
 można przejść do opisu proponowanego rozwiązania. W następnych sekcjach został
 opisany projekt i implementacja systemu, odpowiedzialnego za harmonogramowanie zabiegów rehabilitacyjnych.
+
+\section{Wykorzystane technologie}
+Program został napisany w technologi .Net Core
+5.0.\footnote{\url{https://docs.microsoft.com/en-us/dotnet/fundamentals/} -
+dokumentacja .Net Core} Interfejs użytkownika został stworzyny za pomocją języka
+Typescript i
+framework'a svelte\footnote{\url{https://svelte.dev/docs} - dokumentacja
+framwework'a svelte}. 
+
+\section{Przypadek użycia}
+Użytkownik za pomocą interfejsu wybiera zlecenie
+do wyznaczenie. Po wyznaczeniu proponowane rozwiązanie jest wyświetlone.
+Użytkownik może dostosować propozycję według własnego uznania. Zmiany
+wprowadzone przez użytkownika są automatycznie sprawdzane przez system pod
+kątem spełnienia ograniczeń. Po zatwierdzeniu propozycji, program raz jeszcze
+sprawdza dopuszczalność rozwiązania i jeśli rozwiązanie wciąż jest dopuszczalne,
+zostaje zapisane w bazie danych.
+\newpage
 \section{Implementacja poszczególnych elementów SA}
 Schemat działania symulowanego wyżarzania z listingu \ref{alg-annealing} wymaga
 zdefiniowania pewnych niezbędnych elementów takich jak: $Eval(sol)$,
 $Change(sol)$, $Cool(sol)$, $initialSol$, $initialTemp$ etc. Kolejne sekcje tego rozdziału
 szczegółowo opisują rzeczywistą implementację tychże elementów. 
-\pagebreak
+
 \subsection{Reprezentacja pojedynczej instancji}
 Bazując na opisie z rozdziału \ref{problem-desc}, możemy przedstawić instancję
 problemu jako:
@@ -72,7 +90,7 @@ $z_i$.
 \end{tabular}
 \caption{Pojedyncze rozwiązanie problemu rehabilitacyjnego}
 \end{table}
-\pagebreak
+\newpage
 \subsection{Ocena rozwiązania}
 Wiedząc jak program reprezentuje instancję problemu oraz jego potencjalne
 rozwiązanie, można określić funkcje odpowiedzialne za ocenę rozwiązań
@@ -194,7 +212,7 @@ równa 2.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-\pagebreak
+\newpage
 \subsection{Zmiana rozwiązania}
 W każdej iteracji pętli $while$ algorytm zmienia bieżące rozwiązanie. Funkcja
 $Change(sol)$ zmienia jeden losowy zbiór terminów ze struktury $S_{trm}$.
@@ -230,5 +248,8 @@ poszukiwania sąsiadów jest powtarzany.
 Wykorzystanie funkcji $IsInConflict$ i $FindNearbyTerms$ nie dopuszcza do sytuacji łamiącej
 kryteria $C_2$ i $C_5$ (\ref{constraints}).
 
-\subsection{Schemat chłodzenia}
 \subsection{Kryterium stopu}
+Dwa kryteria stopu zostały zastosowane. Kryterium maksymalnej ilości kroków oraz
+minimalnej poprawy \ref{sec:stop-criteria} zostały zastosowane razem.
+
+\subsection{Schemat chłodzenia}
