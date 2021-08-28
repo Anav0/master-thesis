@@ -2,6 +2,251 @@
 Rozdział ten opisuje badania mające na celu sprawdzenie efektywności
 zaproponowanego rozwiązania.
 
-\section{Badane efektywności algorytmu}
-\subsection{Instancja badana A}
-\subsection{Instancja badana B}
+\section{Metodologia}
+Aby sprawdzić efektywność zaproponowanego algorytmu, należy go uruchomić dla różnych instancji problemu
+z konkretnymi parametrami oraz dla różnych przestrzeni rozwiązań. Każdą instancję należy rozwiązać $n$ razy,
+tak aby uzyskać wiarygodny obraz jakości algorytmu nie
+zniekształcony normalnymi wahaniami niedeterminizmu. Podczas każdego uruchomienia symulowanego wyżarzania,
+zapisywana jest wartość najlepszego znalezionego rozwiązania w danej iteracji. Jeśli przez pierwsze 100 iteracji,
+średnia wartość najlepszego znalezione rozwiązanie ma wartość
+$0.25$ to taka informacja zostanie wyświetlona na wykresie.
+
+Uzyskane w ten sposób dane o zmianie wartości w czasie, należy
+znormalizować w obrębie konkretnej instancji do zakresu od 0 do 1. Najlepsza wartość
+pośród $n$ uruchomień danej instancji jest naszym 0 a najgorsza wartość
+(początkowa) naszą 1.
+
+\subsection{Instancje testowe}
+Ponieważ ilość zabiegów w zleceniu waha się (rys. \ref{medinet-treatments-stats}) między 10 a 70
+zatem rozsądne jest skomponowanie listy instancji testowych w oparciu o kilka
+typowych zleceń danej wielkości. Dla każdej wielkości zleceń, wybrano jako
+instancje testowe dwa zlecenia różniące się od siebie typami zleconych zabiegów.
+Szczegółowo zostały przedstawione instancje wielkości 10, 30 i 50.
+\newpage
+\subsection{Testowa przestrzeń rozwiązań}
+Przestrzeń rozwiązań różni się w zależności od wielkości zlecenia
+oraz dat ograniczających proces wyznaczania. Sprawdzenie każdej
+możliwej kombinacji daty początkowej i końcowej jest niemożliwe. Przewidzenie
+jak w przyszłości będzie wyglądał krajobraz funkcji oceny w ciągle zmieniającym
+się kalendarzu jest również niemożliwe. Warto zatem sprawdzić
+jakość algorytmu wybierając taki zakres dat, który dobrze reprezentuje faktyczny
+stan kalendarza placówki.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}[width=\textwidth]{ | l | l | l |}
+        \hline
+        \bfseries Nazwa skrótowa & \bfseries Data początkowa & \bfseries Data końcowa \\
+        \hline
+        Zakres 1 & 2018-01-01 08:00 & 2018-08-01 18:00 \\
+        \hline
+        Zakres 2 & 2018-03-01 08:00 & 2018-10-01 18:00 \\
+        \hline
+        Zakres 3 & 2018-06-01 08:00 & 2018-12-01 18:00 \\
+        \hline
+        Zakres 4 & 2018-09-01 08:00 & 2019-03-01 18:00 \\
+        \hline
+    \end{tabular}
+    \caption{Zakresy dat wykorzystane w badaniu}
+\end{table}
+
+\subsection{Parametry wykorzystane w badaniu}
+Parametry SA zostały dobrane pod konkretne rozmiary instancji testowych, tak aby efekt
+działania algorytmu był jak najlepszy dla danej instancji.
+\begin{table}[H]
+\centering
+\begin{tabular}[\textwidth]{ | l | l | l | l | l | l | l | l | l | }
+\hline
+\bfseries Rozmiar & \bfseries Temperatura & \bfseries Tempo wychładzania
+	     & \bfseries Maks. ilość iteracji & \bfseries Maks. bez polepszenia\\
+\hline
+10 & 500.00 & 0.9550 & 25,000.00 & 5,000.00 \\
+\hline
+20 & 500.00 & 0.9550 & 50,000.00 & 10,000.00 \\
+\hline
+30 & 500.00 & 0.9550 & 50,000.00 & 10,000.00 \\
+\hline
+40 & 500.00 & 0.9550 & 50,000.00 & 10,000.00 \\
+\hline
+50 & 500.00 & 0.9950 & 50,000.00 & 10,000.00 \\
+\hline
+60 & 500.00 & 0.9950 & 50,000.00 & 10,000.00 \\
+\hline
+70 & 500.00 & 0.9950 & 50,000.00 & 10,000.00 \\
+\hline
+\end{tabular}
+\caption{Lista parametrów wykorzystanych w badaniu}
+\end{table}
+
+\newpage
+\section{Szczegółowe wyniki badań dla wybranych instancji}
+\subsection{Badanie skuteczności rozwiązywania instancji 10 elementowych}
+\begin{table}[H]
+\begin{tabular}{ l l }
+	Średni czas działania: & 3.5598 (s) \\
+Średnia wartość: & 0.3828 \\
+\end{tabular}
+\end{table}
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ | l | X | }
+\hline
+\bfseries Parametr & \bfseries Wartość \\
+\hline
+Temperatura & 500.00 \\
+\hline
+Tempo wychładzania & 0.9950 \\
+\hline
+Maksymalna ilość iteracji & 25,000.00 \\
+\hline
+Zatrzymaj, jeśli nie uzyska polepszenia przez x iteracji & 5,000.00 \\
+\hline
+\end{tabularx}
+\caption{Parametry dla zleceń zawierających 10 zabiegów}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ | X | l | }
+\hline
+\bfseries Nazwa zabiegu & \bfseries Ilość do wykonania \\
+\hline
+MAGNETRONIK & 10 \\
+\hline
+\end{tabularx}
+\caption{Szczegóły testowanego zlecenia 62713}
+\end{table}
+\begin{figure}[H]
+\centering
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ c c }
+\includegraphics[width=0.5\textwidth]{gfx/test-plots/62713_temp_all} & \includegraphics[width=0.5\textwidth]{gfx/test-plots/62713_temp_part} \\
+\end{tabularx}
+\end{table}
+\caption{Wykres spadku temperatury dla instancji 10 elementowych (Całkowity - lewy i zbliżony - prawy)}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{gfx/test-plots/62713_best_all}
+\caption{Znormalizowana wartość najlepszego rozwiązania w danej iteracji dla instancji 10 elementowej. Średnia z 10 uruchomień.}
+\label{temp-10}
+\end{figure}
+\subsubsection{Uwagi} 
+Jak widać po rysunku \ref{temp-10}, algorytm dla zlecenia
+zawierającego tylko zabiegi tego samego typu, nie znalazł lepszego rozwiązania
+niż rozwiązanie początkowe, ponieważ rozwiązanie początkowe już wstawiło każde zabieg na osobny dzień.
+
+\newpage
+\subsection{Szczegóły badania zlecenia 30 elementowego}
+\begin{table}[H]
+\begin{tabular}{ l l }
+	Średni czas działania: & 5.0356 (s) \\
+Średnia wartość: & 0.7326 \\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ | l | X | }
+\hline
+\bfseries Parametr & \bfseries Wartość \\
+\hline
+Temperatura & 500.00 \\
+\hline
+Tempo wychładzania & 0.9950 \\
+\hline
+Maksymalna ilość iteracji & 50,000.00 \\
+\hline
+Zatrzymaj, jeśli nie uzyska polepszenia przez x iteracji & 10,000.00 \\
+\hline
+\end{tabularx}
+\caption{Parametry dla zleceń zawierających 30 zabiegów}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ | X | l | }
+\hline
+\bfseries Nazwa zabiegu & \bfseries Ilość do wykonania \\
+\hline
+Krioterapia AZOT & 10 \\
+\hline
+MAGNETRONIK & 10 \\
+\hline
+Laser punktowy & 10 \\
+\hline
+\end{tabularx}
+\caption{Szczegóły testowanego zlecenia 78636}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ c c }
+\includegraphics[width=0.5\textwidth]{gfx/test-plots/78636_temp_all} & \includegraphics[width=0.5\textwidth]{gfx/test-plots/78636_temp_part} \\
+
+\end{tabularx}
+\end{table}
+\caption{Wykres spadku temperatury dla instancji 30 elementowych (Całkowity - lewy i zbliżony - prawy)}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{gfx/test-plots/78636_best_all}
+\caption{Znormalizowana wartość najlepszego rozwiązania w danej iteracji dla instancji 30 elementowej. Średnia z 10 uruchomień.}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=14cm]{gfx/test-plots/78636_deviation}
+\caption{Odchylenie między wartością najlepszego znalezionego rozwiązania w danej iteracji i danym zakresie dla instancji 30 elementowej}
+\end{figure}
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=1\textwidth]{gfx/test-plots/all_in_one}
+%\caption{Wszystkie znormalizowane wartość najlepszego rozwiązania w danej iteracji}
+%\end{figure}
+
+\subsection{Podsumowanie wyników}
+\begin{table}[H]
+\centering
+\begin{tabularx}{1\textwidth}{ | X | X | l | l | l | l | l | l | X | }
+\hline
+\bfseries Id & \bfseries Rozmiar & $\mathbf{v_1}$ & $\mathbf{v_2}$ & $\mathbf{v_3}$ & $\mathbf{v_4}$ & $\mathbf{v_5}$ & \bfseries Suma & \bfseries Średni czas (s) \\
+\hline
+62713 & 10 & 0.3113 & 0.0000 & 0.0000 & 0.0115 & 0.0600 & 0.3828 & 3.5598 \\
+\hline
+74543 & 10 & 0.3113 & 0.0000 & 0.0000 & 0.0120 & 0.0600 & 0.3833 & 3.5550 \\
+\hline
+78587 & 20 & 0.4415 & 0.0000 & 0.2450 & 0.0786 & 0.0600 & 0.8252 & 4.2552 \\
+\hline
+83933 & 20 & 0.4275 & 0.0000 & 0.2554 & 0.0778 & 0.0600 & 0.8207 & 4.1729 \\
+\hline
+78636 & 30 & 0.4207 & 0.0370 & 0.1397 & 0.0735 & 0.0617 & 0.7326 & 5.0356 \\
+\hline
+78717 & 30 & 0.4492 & 0.1301 & 0.1393 & 0.0712 & 0.0660 & 0.8559 & 4.9717 \\
+\hline
+150165 & 40 & 0.3803 & 0.8788 & 0.0478 & 0.0225 & 0.1820 & 1.5115 & 4.7056 \\
+\hline
+155280 & 40 & 0.4335 & 0.3032 & 0.1417 & 0.0721 & 0.0673 & 1.0177 & 6.0482 \\
+\hline
+80962 & 60 & 0.4150 & 0.4923 & 0.1114 & 0.0774 & 0.0769 & 1.1731 & 7.8611 \\
+\hline
+84035 & 60 & 0.3865 & 0.4723 & 0.1203 & 0.0799 & 0.0748 & 1.1338 & 7.2471 \\
+\hline
+246510 & 70 & 0.4152 & 0.6144 & 0.1249 & 0.0772 & 0.0957 & 1.3274 & 8.1094 \\
+\hline
+274804 & 70 & 0.4204 & 0.8417 & 0.0471 & 0.0399 & 0.2246 & 1.5738 & 6.6644 \\
+\hline
+178354 & 50 & 0.4000 & 0.9004 & 0.0468 & 0.0198 & 0.2201 & 1.5870 & 5.3316 \\
+\hline
+180837 & 50 & 0.3900 & 0.2480 & 0.1138 & 0.0733 & 0.0990 & 0.9241 & 6.0106 \\
+\hline
+\end{tabularx}
+\caption{Wyniki badań dla wszystkich badanych instancji}
+\end{table}
+Jak widać na powyższej tabeli, czas działania algorytmu zwiększa się wraz z
+rozmiarem instancji testowej. Dzieje się tak dlatego, że wartość określająca
+maksymalną ilość kroków bez poprawy jest zwiększa dla większych instancji, przez
+co algorytm wykonuje więcej iteracji.
