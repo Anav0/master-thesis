@@ -126,24 +126,24 @@ jest to wynik funkcji $K(sol)$.
 		\hline
 		$W(v_i)$ &  Zwraca wagę dla danej pomniejsze wartości oceny. &  \\
 		\hline
-		$v_1$ & Sumuje dla każdego zajętego dnia różnicę między momentem wyjścia z
-		kliniki (koniec najpóźniejszego terminu w danym dniu) a momentem
-		przyjścia (start najwcześniejszego terminu w danym
-		dniu). & $P_1$ i $P_2$ \\
+		$v_1$ & Suma odległości, między zajętymi dniami a \emph{start}.& $P_1$\\
 		\hline
-		$v_2$ & Znormalizowana ilość zajętych dni. Im mniej tym lepiej. & $P_3$\\
-		\hline
-		$v_3$ & Suma różnicy między
-		najwcześniejszym możliwym terminem a tym faktycznie
-		najwcześniejszym. & $P_4$\\
-		\hline
-		$v_4$ & Suma ilość wyznaczonych
+		$v_2$ & Suma ilość wyznaczonych
 		wizyt, normalizuje wynik i odejmuje go od 1 aby uzyskać wartość
 		poprawną z punktu widzenia problemu minimalizacji. Im więcej
 		wizyt jednego dnia, tym lepiej. &
-		$P_5$\\
+		$P_2$\\
 		\hline
-		$v_5$ & Suma odległości, między zajętymi dniami a \emph{start}.& $P_6$\\
+		$v_3$ & Sumuje dla każdego zajętego dnia różnicę między momentem wyjścia z
+		kliniki (koniec najpóźniejszego terminu w danym dniu) a momentem
+		przyjścia (start najwcześniejszego terminu w danym
+		dniu). & $P_3$ i $P_4$ \\
+		\hline
+		$v_4$ & Suma różnicy między
+		najwcześniejszym możliwym terminem w danym dniu a tym faktycznie
+		najwcześniejszym. & $P_5$\\
+		\hline
+		$v_5$ & Znormalizowana ilość zajętych dni. Im mniej tym lepiej. & $P_6$\\
 		\hline
 \end{tabularx}
 \end{table}
@@ -175,6 +175,7 @@ równa 2.
 \State $start \gets GetStart()$\Comment{Daty definiujące zakres wyznaczania}
 \State $end \gets GetEnd()$
 \State $numberOfDays \gets 0$
+\State $max \gets MaxBasedOnReferral()$
 
 \For{ $day\ in\ UsedDays()$ }\Comment{Dni wykorzystane przez $s \in S$}
 \State $numberOfDays \gets numberOfDays+1$
@@ -184,7 +185,7 @@ równa 2.
 \State $lastTerm \gets Last(day)$\Comment{Najpóźniejszy termin.}
 
 \State $v1 \gets v1 + Norm(day-start,start,end)$
-\State $v2 \gets v2 + (1 - Norm(numberOfVisits,0,20))$
+\State $v2 \gets v2 + (1 - Norm(numberOfVisits,0,max))$
 
 \If{$numberOfVisits > 1$}
 \State $v3 \gets v3 + Norm(lastTerm.StartDate-firstTerm.EndDate,start,end)$
