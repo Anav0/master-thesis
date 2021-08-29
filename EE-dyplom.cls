@@ -628,8 +628,7 @@
     \counterwithout{lstlisting}{chapter} % hack niestety
     \pagestyle{empty}
     \maketitle
-    \stronastreszczenia
-    \abstractpage
+    \input{tekst/chapters/abstract.tex}
     \stronawstepu
     \tableofcontents
     \cleardoublepage
