@@ -1,0 +1,29 @@
+\chapter{Uwagi i przemyślenia}
+W tym rozdziale opisane zostały ogólne uwagi, przemyślenia oraz trudności
+powstałe podczas tworzenia programu.
+zabiegów rehabilitacyjnych.
+
+\subsubsection{Parametryzacja SA}
+Dostosowanie parametrów symulowanego wyżarzania oraz różnych szczegółów
+implementacji do konkretnego problemu nie jest sprawą trywialną. Tak było
+również w tym przypadku. Tempo wychładzania, temperatura początkowa, rozwiązanie
+początkowe - to od tych elementów zależy powodzenie algorytmu. Źle dobrane
+parametry mogą w najlepszym razie znacząco spowolnić algorytm lub doprowadzić do
+stanu w którym algorytm nie będzie zwracał dobrych rozwiązań.
+
+\subsubsection{Wykorzystanie memoizacji do przyśpieszenia algorytmu}
+Aby uzyskać odpowiednio niski czas działania programu,
+należało zastosować szereg technik memoizacji tj. zapamiętywania raz wyliczonych
+wartości, bez konieczności kalkulowania ich za każdym razem gdy symulowane
+wyżarzanie wykonuję jedną ze swoich iteracji. Tak jest w przypadku kary, która
+jest sumą pomniejszych wartości. Te pomniejsze wartości zmieniają się tylko w
+przypadku zmiany kompozycji danego dnia. Taki mechanizm pozwolił znacząco
+zredukować czas działania algorytmu.
+
+\subsubsection{Efektywne klonowanie rozwiązań}
+SA w każdej pętli przeprowadza przynajmniej jedno klonowanie rozwiązania.
+Rozwiązania składają się z kilku pól zarówno tych o typie referencyjnym (z ang.
+\emph{reference type}) jak i wartościowym (z ang. \emph{value type}). Kolekcje
+zawarte w rozwiązaniu nie były klonowane, lecz miały kopiowaną między sobą
+zawartość. Kopiowanie zawartości pozwoliło na znaczne przyśpieszenie działania
+symulowanego wyżarzania oraz na ograniczenie niepotrzebnej alokacji pamięci.
