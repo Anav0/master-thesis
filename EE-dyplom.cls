@@ -69,7 +69,7 @@
 %\setmonofont{Latin Modern Mono}
 %\setmathrm{Latin Modern Math}
 %\setmathfont(Digits,Latin)[Scale=MatchLowercase]{Latin Modern Math}
-\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\familydefault}{\rmdefault}
 
 % ---------------------------------------------
 % Podstawowa konfiguracja XeLaTeX
@@ -519,11 +519,9 @@
     \vskip 2em
     \LARGE \@author \\
     \vskip 2.5em
-    \begin{flushleft}
-        \LARGE \titlelocal
-        \vskip 2em
-        \fontsize{17pt}{17pt} \selectfont \@engtitle
-    \end{flushleft}
+    \fontsize{19pt}{19pt} \textbf{\titlelocal}
+        \vskip 1.5em
+	\fontsize{15pt}{15pt} \selectfont \textbf{\@engtitle}
     \vfill
     \begin{flushright}
         \large \promotorlocal\\\@promotor
