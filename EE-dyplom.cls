@@ -584,6 +584,7 @@
     \thispagestyle{empty}
     \begin{center}
         \textbf{\large\@title}
+
         \textbf{Streszczenie}
     \end{center}
     \@streszczeniepracy
