@@ -680,7 +680,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Jedno polecenie - kombajn stron końcowych (bez bibliografii)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\tailpages}{
+\newcommand{\tailpage}{
     % wykaz symboli i skrótów
     % \acronymslist
 
