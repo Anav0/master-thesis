@@ -5,7 +5,7 @@ z konkretnymi parametrami oraz dla różnych przestrzeni rozwiązań. Każdą in
 tak aby uzyskać wiarygodny obraz jakości algorytmu nie
 zniekształcony normalnymi wahaniami niedeterminizmu. Podczas każdego uruchomienia symulowanego wyżarzania,
 zapisywana jest wartość najlepszego znalezionego rozwiązania w danej iteracji. Jeśli przez pierwsze 100 iteracji,
-średnia wartość najlepszego znalezione rozwiązanie ma wartość
+średnia wartość najlepszego znalezionego rozwiązanie ma wartość
 $0.25$ to taka informacja zostanie zaznaczona na wykresie.
 
 Uzyskane w ten sposób dane o zmianie wartości w czasie, należy
@@ -17,7 +17,7 @@ pośród $n$ uruchomień danej instancji jest naszym 0 a najgorsza wartość
 Ponieważ ilość zabiegów w zleceniu waha się (rys. \ref{medinet-treatments-stats}) między 10 a 70
 zatem rozsądne jest skomponowanie listy instancji badawczych w oparciu o kilka
 typowych zleceń danej wielkości. Dla każdej wielkości zleceń, wybrano jako
-instancje testowe dwa zlecenia różniące się od siebie typami zleconych zabiegów.
+instancje badawcze dwa zlecenia różniące się od siebie typami zleconych zabiegów.
 Szczegółowo zostały przedstawione instancje wielkości 10 i 30.
 \newpage
 \subsection{Badana przestrzeń rozwiązań}
@@ -49,9 +49,8 @@ jeszcze nieznanymi przestrzeniami rozwiązań.
 \end{table}
 
 \subsection{Parametry wykorzystane w badaniu}
-Parametry SA zostały dobrane pod konkretne rozmiary badanych instancji, tak aby efekt
+Parametry SA zostały dobrane pod konkretne rozmiary badanych instancji tak, aby efekt
 działania algorytmu był jak najlepszy.
-
 \begin{table}[H]
 \centering
 \begin{tabular}[\textwidth]{ | l | l | l | l | l | l | l | l | l | }
@@ -248,9 +247,8 @@ Laser punktowy & 10 \\
 Algorytm najlepiej spełnił preferencję $v_5$ i $v_4$. Największą trudność
 algorytmowi sprawiło spełnienie preferencji $v_1$, której wartość jest tym mniejsza im
 mniejsza jest odległość od daty początkowej. Nietrudno zauważyć, że algorytm
-większy nacisk kładł na znalezienie rozwiązania, które nie wymaga na pacjencie
-przebywania długo w klinice niż na takie, które jest możliwie jak najwcześniej.
-Jest to zachowanie pożądane.
+większy nacisk kładł na znalezienie rozwiązania, które nie wymaga aby
+pacjent długo przebywał w klinice.
 
 Zlecenie o tym samym rozmiarze nie zawsze są równie skutecznie rozwiązywane. Algorytm bardzo różnie ocenił
 zlecenia 50 elementowe, szczególnie duża różnica jest widoczna w warunku $v_2$. Różnice w wartościowaniu wynikają, z różnej
