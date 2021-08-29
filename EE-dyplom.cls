@@ -629,7 +629,9 @@
     \pagestyle{empty}
     \maketitle
     \input{tekst/chapters/abstract.tex}
-    \stronawstepu
+    \newpage
+    \input{tekst/chapters/introduction.tex}
+    \newpage
     \tableofcontents
     \cleardoublepage
     \pagestyle{headings}
