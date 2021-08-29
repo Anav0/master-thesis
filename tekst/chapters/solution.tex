@@ -18,7 +18,8 @@ framwework'a svelte}.
 
 \section{Przypadek użycia}
 Użytkownik za pomocą interfejsu wybiera zlecenie
-do wyznaczenie. Po wyznaczeniu proponowane rozwiązanie jest wyświetlone.
+do wyznaczenia. System generuje proponowane rozwiązanie i wyświetla je na
+ekranie.
 Użytkownik może dostosować propozycję według własnego uznania. Zmiany
 wprowadzone przez użytkownika są automatycznie sprawdzane przez system pod
 kątem spełnienia ograniczeń. Po zatwierdzeniu propozycji, program raz jeszcze
@@ -160,9 +161,9 @@ lista \sTermsList\ jest zapełniona tylko takimi terminami, których sala ma
 przynajmniej jedno miejsce wolne.
 
 \subsubsection{Normalizacja} 
-Każda pomniejsza wartość oceny jest normalizowana ostateczną sumą tak, aby mieściła się w
-zakresie od 0 do 1. Liczba 1 oznacza najgorszy możliwy wynik dla
-danego dnia a 0 najlepszy. Bez takiej normalizacji niemożliwe byłoby użycie wag.
+Każda pomniejsza wartość oceny jest normalizowaną tak, aby mieściła się w
+zakresie od 0 do 1. Liczba 1 oznacza najgorszy możliwy wynik dla a 0 najlepszy.
+Bez takiej normalizacji niemożliwe byłoby użycie wag.
 
 \subsubsection{Średnia} 
 Wyniki pomniejszych wartości oceny za wyjątkiem $v_4$ są dodatkowo na końcu dzielone przez ilość
@@ -251,10 +252,27 @@ poszukiwania sąsiadów jest powtarzany.
 \end{algorithm}
 Wykorzystanie funkcji $IsInConflict$ i $FindNearbyTerms$ nie dopuszcza do sytuacji łamiącej
 kryteria $C_2$ i $C_5$ (\ref{constraints}).
-
+\newpage
 \subsection{Kryterium stopu}
 Dwa kryteria stopu zostały zastosowane. Kryterium maksymalnej ilości kroków oraz
-minimalnej poprawy \ref{sec:stop-criteria} zostały zastosowane razem.
+minimalnej poprawy \ref{sec:stop-criteria}. Takie
+połączenie warunków pozwala na wczesniejsze przerwania działania algorytmu,
+jeśli od dłuższego czasu nie zanotowano żadnej poprawy.
+
+\subsection{Konstrukcja rozwiązania początkowego}
+Rozwiązanie początkowe jest konstruowane tak, że każdy zabieg z listy zabiegowej
+(zlecenia) jest
+umieszczany w najbliższym dostępnym terminie kolejnego dnia. Jeśli lista zawiera
+30 zabiegów, to wymagane jest aby terminy brane pod uwagę rozciągały się w
+okresie minimum 30 dni. Jeden zabieg na jeden dzień. Takie umieszczenie zabiegów
+rehabilitacyjnych pozwala na szybkie obniżenie temperatury i tym samym na
+szybkie zbiegnięcie się zabiegów mimo ich poczatkowego oddalenia od siebie.
 
 \subsection{Schemat chłodzenia}
-\subsection{Konstrukcja rozwiązania początkowego}
+Jako schemat chłodzenia wybrano chłodzenie funkcją kwadratową. Rozwiązanie początkowe
+wymusza na nas wybranie funkcji, która powoduje stosunkowo szybkie wychładzanie.
+Początkowa wysoka temperatura pozwala na rozrzucenie zabiegów w rozwiązaniu nie
+przejmując się ewentualnymi ruchami niedopuszczalnymi. Po rozrzuceniu
+rozwiązania, niska temperatura umożliwia szybkie dotarcie do obszaru krajobrazu
+funkcji oceny, który jest najkorzystniejszy.
+
