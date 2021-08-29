@@ -55,6 +55,7 @@
 % https://www.overleaf.com/learn/latex/Questions/Which%20OTF%20or%20TTF%20fonts%20are%20supported%20via%20fontspec%3F
 % ---------------------------------------------
 \RequirePackage{algorithm}
+%\RequirePackage{algorithmic}
 \RequirePackage{algpseudocode}
 \RequirePackage{amsfonts}
 \RequirePackage{amsmath}
@@ -380,9 +381,9 @@
 }
 \lstset{style=EEStyle}
 \renewcommand{\lstlistingname}{Algorytm}
-\renewcommand{\lstlistlistingname}{Lista algorytmów}
+\renewcommand{\lstlistlistingname}{Spis algorytmów}
 \renewcommand{\ALG@name}{Algorytm}
-\renewcommand{\listalgorithmname}{Lista algorytmów}
+\renewcommand{\listalgorithmname}{Spis algorytmów}
 
 % ---------------------------------------------
 % Tabelki
@@ -681,7 +682,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\tailpages}{
     % wykaz symboli i skrótów
-    \acronymslist
+    % \acronymslist
 
     % spis rysunków
     \listoffigures
@@ -691,7 +692,6 @@
 
     % lista algorytmów / fragmentów kodu
     \listofalgorithms
-    \lstlistoflistings
 
-    \easyappendices
+    % \easyappendices
 }

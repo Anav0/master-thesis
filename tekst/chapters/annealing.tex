@@ -24,7 +24,7 @@ Symulowane wyżarzanie \cite{metaheuristic-handbook} (z ang.\emph{simulated anne
 \State $sol \gets beforeChange$\label{annealing-copy}
 \EndIf
 \State$Cool(temp)$\Comment{Zmień temperaturę}
-\EndWhile\label{euclidendwhile}
+\EndWhile
 \State $\textbf{return}\ bestSol$
 \EndProcedure
 \end{algorithmic}
@@ -86,7 +86,7 @@ może obliczyć wartość rozwiązania na dwa sposoby:
 		spełnienie preferencji.
 \end{itemize}
 Karą w problemach harmonogramowania może być liczba wydarzeń, które nie mają
-przypisanego bezkonfliktowego terminu a np. w problemie plecakowym różnica miększy
+przypisanego bezkonfliktowego terminu a np. w problemie plecakowym różnica między
 pojemnością plecaka a rzeczywistą wagą zabranych przedmiotów.
 
 Wartością naliczaną za spełnienie preferencji może być różnica między
@@ -107,7 +107,7 @@ Podobnie jak przy poprzednich elementach algorytmu, schemat chłodzenia ściśle
 zależy od rozwiązywanego problemu. Im mniejsza temperatura, tym mniejsze
 prawdopodobieństwo akceptacji ruchu pogarszającego. Delikatne obniżanie
 temperatury pozwoli na zbadanie większej części przestrzeni rozwiązań. Niewielka
-temperatura nie pozwoli na powędrowanie w rejony przestrzeni rozwiązań znacząco
+temperatura nie pozwoli na powędrowanie w rejony przestrzeni rozwiązań, znacząco
 oddalone od punktu w którym znajduje się rozwiązanie początkowe.
 
 \begin{figure}[!h]
@@ -124,7 +124,7 @@ oddalone od punktu w którym znajduje się rozwiązanie początkowe.
 \label{sec:stop-criteria}
 Algorytm działa w pętli $while$ która ulega przerwaniu jeśli spełniony zostanie
 warunek stopu. Jeśli nie wykorzystujemy algorytmu w wersji online czyli takiej,
-która ciągle na bieżąco stara się znaleźć najlepsze rozwiązanie przy
+która ciągle, na bieżąco stara się znaleźć najlepsze rozwiązanie przy
 zmieniającym się krajobrazie funkcji celu, wtedy możemy zastosować jeden z
 poniższych warunków:
 
@@ -133,7 +133,7 @@ Podstawowy warunek stopu. Algorytm przerwie działanie jeśli dotrze do danej
 iteracji pętli $while$. Istnieje ryzyko, że algorytm będzie działał nawet po
 znalezieniu dobrego rozwiązania, lub braku znaczącej poprawy w jakości
 uzyskiwanych rozwiązań. Jeśli nasz problem ma styczność z dużym spektrum
-skomplikowania instancji problemu, wtedy wykorzystanie tylko jego nie jest
+skomplikowania instancji problemu, wtedy wykorzystanie tylko tego warunku nie jest
 dobrym pomysłem.
 
 \subsubsection{Maksymalny czas} 
@@ -149,5 +149,5 @@ istnieje ryzyko nieznalezienia rozwiązania o wymaganej wartości.
 \subsubsection{Maksymalny czas bez poprawy} 
 Algorytm przerywa pętlę, jeśli przez określony czas np. ilość iteracji algorytm
 nie znalazł rozwiązania, które byłoby lepsze niż najlepsze do tej pory
-znalezione ($bestSol$).Można lekko zmodyfikować ten warunek i określić minimalną
+znalezione ($bestSol$). Można lekko zmodyfikować ten warunek i określić minimalną
 różnicę między rozwiązaniami, która będzie traktowana jako polepszenie. 

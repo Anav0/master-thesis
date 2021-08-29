@@ -4,7 +4,7 @@ rozwiązywaniu problemów harmonogramowania.
 \section{Możliwe rozwiązania}
 Do rozwiązania problemu harmonogramowania można użyć szeregu technik, algorytmów
 czy też sposobów. Badacze z powodzeniem zastosowali chociażby algorytm
-genetyczny \cite{assi2018}, programowania całkowitoliczbowe \cite{yakoob2007} czy symulowane wyżarzanie\cite{marzec2020}.
+genetyczny \cite{assi2018}, programowania matematyczne \cite{yakoob2007} czy symulowane wyżarzanie \cite{marzec2020}.
 
 Szczegółową analizą stosowanych metod zajęli się S.A MirHassani i F. Habib
 \cite{habib2013}. Metody te można podzielić na kilka grup:
@@ -24,11 +24,11 @@ terminów, tak aby jak najlepiej spełnić stawiane preferencje. Grupowanie
 wydarzeń w klastry ma miejsce na początku procesu wyznaczania i może skutkować
 problemem w znalezieniu dobrego rozwiązania.
 
-\subsubsection{Metody bazujące na ograniczeniach (z ang. \emph{constraint-based methods})} 
+\subsubsection{Metody bazujące na ograniczeniach (z ang. \emph{constraint based methods})} 
 Opisują problem jako zbiór wydarzeń, który
 następnie przypisywane są zasoby tak aby spełnione zostały ograniczenia.
 
-\subsubsection{Metaheurystyki (z ang. \emph{meta-heuristics methods})}
+\subsubsection{Metaheurystyki (z ang. \emph{metaheuristics methods})}
 Metaheurystkami nazywany algorytmy niedeterministyczne, które są w stanie ocenić
 w czasie wielomianowym, jakość danego rozwiązania. Do grupy algorytmów
 metaheurystycznych zaliczamy: algorytm genetyczny, symulowane wyżarzanie,
@@ -46,6 +46,7 @@ zachodzące podczas doboru naturalnego. Algorytm zatem definiuje pewne parametry
 	\item Prawdopodobieństwo krzyżowania \emph{cross}.
 	\item Prawdopodobieństwo mutacji \emph{mut}.
 \end{itemize}
+
 \begin{algorithm}
 \caption{Algorytm genetyczny}\label{alg-genetic}
 \begin{algorithmic}[1]
@@ -63,6 +64,7 @@ zachodzące podczas doboru naturalnego. Algorytm zatem definiuje pewne parametry
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
 Istnieją dwa podejścia co do zmiany populacji. Podejście inkrementacyjne i
 podejście stanu stałego. Podejście inkrementacyjne za każdym razem zmienia tylko
 część istniejącej populacji, podczas gdy podejście stanu stałego za każdym razem
@@ -79,19 +81,19 @@ ilości unikatowych rozwiązań, bez cyklicznego wracania do tych już napotkany
 przez algorytm.
 
 \subsection{Kolorowanie grafu (z ang. \emph{graph coloring})}
-Problem harmonogramowania można przekształcić w problem kolorowania grafu\cite{haan2006}.
+Problem harmonogramowania można przekształcić w problem kolorowania grafu \cite{haan2006}.
 Wierzchołki grafu $v \in V$ reprezentują spotkania/wydarzenia, krawędzie
 $e \in E$ reprezentują konflikty między nimi a kolory wierzchołków reprezentują sloty czasowe
 (terminy). 
 
 Niestety rozwiązania uzyskiwane po rozwiązaniu problemu kolorowania grafu nie są
-dostatecznie zadowalające\cite{hann2006}, dlatego stosuje się specjalne fazy, 
+dostatecznie zadowalające \cite{haan2006}, dlatego stosuje się specjalne fazy, 
 które mają za zadanie zwiększyć jakość ostatecznego rozwiązania. W pierwszych
 fazach uzyskuje się rozwiązanie dopuszczalne a w kolejnych wykorzystuje się
 przeszukiwanie z tabu lub inną metaheurystkę w celu ulepszenia dopuszczalnego
 rozwiązania.
 
-\subsection{Programowanie całkowitoliczbowe (z ang. \emph{Integer programming})}
+\subsection{Programowanie matematyczne (z ang. \emph{Integer programming})}
 Reprezentuje problem jako zbiór liczb całkowitych. Z reguły do reprezentacji
 problemu stosuje się liczby całkowite oraz liczby binarne
 \cite{maaroufi2016mixed}. Jest to forma zbliżona do tej z której korzysta algorytm genetyczny.
@@ -102,16 +104,13 @@ problem, aby jak najlepiej spełnić ograniczenia oraz preferencje.
 Ta technika jest bardzo popularna, ponieważ całkowitoliczbowa reprezentacja problemu daje
 większą kontrolę nad operacjami przeprowadzanymi na rozwiązaniu niż ma to miejsce w algorytmie
 genetycznym. Mutacja czy krzyżowanie zmienia bity bez wiedzy o tym, jaki aspekt
-rozwiązania jest przez nie kontrolowany.
+rozwiązania jest przez nie kontrolowany. Niestety czasami nie można dokonać reprezentacji problemu jako jeden wzór.
 
 \section{Podsumowanie}
 Jak widać możliwych do zastosowania algorytmów nie brakuje. Algorytm genetyczny
 mimo iż najpopularniejszy, nie pozwala na dokładną kontrolę tego, co jest
-zmieniane w naszym rozwiązaniu.
-
-Przekształcenie problemu w problem kolorowania grafu wymaga dodatkowych kroków,
-które by poprawiły uzyskane rozwiązanie.
-
+zmieniane w naszym rozwiązaniu. Przekształcenie problemu w problem kolorowania
+grafu wymaga dodatkowych kroków, które by poprawiły uzyskane rozwiązanie.
 Programowanie całkowitoliczbowe eliminuje część problemów napotkanych w
 algorytmie genetycznym, jednak ma ono problemy z dużymi instancjami problemu
 harmonogramowania.
