@@ -121,29 +121,32 @@ jest to wynik funkcji $K(sol)$.
 	V(sol) = \sum_{n=5}^{i=1} W(v_i) * v_i
 \end{equation}
 
+$W(v_i)$  Zwraca wagę dla danej pomniejsze wartości oceny.
 \begin{table}[h]
-	\begin{tabularx}{\textwidth}{ | C{0.4} | L{2.3} | C{0.3} | }
+	\begin{tabularx}{\textwidth}{ | C{0.4} | L{2.6} | C{0.3} | C{0.7} | }
 		\hline
-		$W(v_i)$ &  Zwraca wagę dla danej pomniejsze wartości oceny. &  \\
+		\bfseries Symbol & \bfseries Opis & \bfseries Waga & \bfseries
+		Preferencja \\
 		\hline
-		$v_1$ & Suma odległości, między zajętymi dniami a \emph{start}.& $P_1$\\
+		$v_1$ & Suma odległości, między zajętymi dniami a \emph{start}.&
+		1 & $P_1$\\
 		\hline
 		$v_2$ & Suma ilość wyznaczonych
 		wizyt, normalizuje wynik i odejmuje go od 1 aby uzyskać wartość
 		poprawną z punktu widzenia problemu minimalizacji. Im więcej
-		wizyt jednego dnia, tym lepiej. &
+		wizyt jednego dnia, tym lepiej. & 1 &
 		$P_2$\\
 		\hline
 		$v_3$ & Sumuje dla każdego zajętego dnia różnicę między momentem wyjścia z
 		kliniki (koniec najpóźniejszego terminu w danym dniu) a momentem
 		przyjścia (start najwcześniejszego terminu w danym
-		dniu). & $P_3$ i $P_4$ \\
+		dniu). & 1.5 & $P_3$ i $P_4$ \\
 		\hline
 		$v_4$ & Suma różnicy między
 		najwcześniejszym możliwym terminem w danym dniu a tym faktycznie
-		najwcześniejszym. & $P_5$\\
+		najwcześniejszym. & 0.25 & $P_5$\\
 		\hline
-		$v_5$ & Znormalizowana ilość zajętych dni. Im mniej tym lepiej. & $P_6$\\
+		$v_5$ & Znormalizowana ilość zajętych dni. Im mniej tym lepiej. & 1 & $P_6$\\
 		\hline
 \end{tabularx}
 \end{table}
