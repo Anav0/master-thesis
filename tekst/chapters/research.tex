@@ -1,36 +1,34 @@
 \chapter{Badania efektywności zaproponowanego rozwiązania}
-Rozdział ten opisuje badania mające na celu sprawdzenie efektywności
-zaproponowanego rozwiązania.
-
 \section{Metodologia}
 Aby sprawdzić efektywność zaproponowanego algorytmu, należy go uruchomić dla różnych instancji problemu
-z konkretnymi parametrami oraz dla różnych przestrzeni rozwiązań. Każdą instancję należy rozwiązać $n$ razy,
+z konkretnymi parametrami oraz dla różnych przestrzeni rozwiązań. Każdą instancję trzeba rozwiązać $n=10$ razy,
 tak aby uzyskać wiarygodny obraz jakości algorytmu nie
 zniekształcony normalnymi wahaniami niedeterminizmu. Podczas każdego uruchomienia symulowanego wyżarzania,
 zapisywana jest wartość najlepszego znalezionego rozwiązania w danej iteracji. Jeśli przez pierwsze 100 iteracji,
 średnia wartość najlepszego znalezione rozwiązanie ma wartość
-$0.25$ to taka informacja zostanie wyświetlona na wykresie.
+$0.25$ to taka informacja zostanie zaznaczona na wykresie.
 
 Uzyskane w ten sposób dane o zmianie wartości w czasie, należy
 znormalizować w obrębie konkretnej instancji do zakresu od 0 do 1. Najlepsza wartość
 pośród $n$ uruchomień danej instancji jest naszym 0 a najgorsza wartość
 (początkowa) naszą 1.
 
-\subsection{Instancje testowe}
+\subsection{Instancje badawcze}
 Ponieważ ilość zabiegów w zleceniu waha się (rys. \ref{medinet-treatments-stats}) między 10 a 70
-zatem rozsądne jest skomponowanie listy instancji testowych w oparciu o kilka
+zatem rozsądne jest skomponowanie listy instancji badawczych w oparciu o kilka
 typowych zleceń danej wielkości. Dla każdej wielkości zleceń, wybrano jako
 instancje testowe dwa zlecenia różniące się od siebie typami zleconych zabiegów.
-Szczegółowo zostały przedstawione instancje wielkości 10, 30 i 50.
+Szczegółowo zostały przedstawione instancje wielkości 10 i 30.
 \newpage
-\subsection{Testowa przestrzeń rozwiązań}
-Przestrzeń rozwiązań różni się w zależności od wielkości zlecenia
-oraz dat ograniczających proces wyznaczania. Sprawdzenie każdej
-możliwej kombinacji daty początkowej i końcowej jest niemożliwe. Przewidzenie
-jak w przyszłości będzie wyglądał krajobraz funkcji oceny w ciągle zmieniającym
-się kalendarzu jest również niemożliwe. Warto zatem sprawdzić
-jakość algorytmu wybierając taki zakres dat, który dobrze reprezentuje faktyczny
-stan kalendarza placówki.
+\subsection{Badana przestrzeń rozwiązań}
+Przestrzeń rozwiązań różni się w zależności od wielkości zlecenia oraz dat
+ograniczających proces wyznaczania. Sprawdzenie każdej możliwej kombinacji daty
+początkowej i końcowej jest niemożliwe. Przewidzenie jak w przyszłości będzie
+wyglądał krajobraz funkcji oceny jest również niemożliwe. Warto zatem sprawdzić
+takie zakresy, które będą trudne dla algorytmu. Trudne zakresy to takie, które
+zawierają w sobie dużą ilość już wyznaczonych zabiegów. Sprawdzenie trudnych
+zakresów pozwoli nam ocenić jak w przyszłości będzie sobie radził program z
+jeszcze nieznanymi przestrzeniami rozwiązań.
 
 \begin{table}[H]
     \centering
@@ -51,8 +49,9 @@ stan kalendarza placówki.
 \end{table}
 
 \subsection{Parametry wykorzystane w badaniu}
-Parametry SA zostały dobrane pod konkretne rozmiary instancji testowych, tak aby efekt
-działania algorytmu był jak najlepszy dla danej instancji.
+Parametry SA zostały dobrane pod konkretne rozmiary badanych instancji, tak aby efekt
+działania algorytmu był jak najlepszy.
+
 \begin{table}[H]
 \centering
 \begin{tabular}[\textwidth]{ | l | l | l | l | l | l | l | l | l | }
@@ -114,7 +113,7 @@ Zatrzymaj, jeśli nie uzyska polepszenia przez x iteracji & 5,000.00 \\
 MAGNETRONIK & 10 \\
 \hline
 \end{tabularx}
-\caption{Szczegóły testowanego zlecenia 62713}
+\caption{Szczegóły badanego zlecenia 10 elementowego}
 \end{table}
 \begin{figure}[H]
 \centering
@@ -124,21 +123,21 @@ MAGNETRONIK & 10 \\
 \includegraphics[width=0.5\textwidth]{gfx/test-plots/62713_temp_all} & \includegraphics[width=0.5\textwidth]{gfx/test-plots/62713_temp_part} \\
 \end{tabularx}
 \end{table}
-\caption{Wykres spadku temperatury dla instancji 10 elementowych (Całkowity - lewy i zbliżony - prawy)}
+\caption{Spadek temperatury dla instancji 10 elementowych.}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{gfx/test-plots/62713_best_all}
-\caption{Znormalizowana wartość najlepszego rozwiązania w danej iteracji dla instancji 10 elementowej. Średnia z 10 uruchomień.}
+\caption{Znormalizowana wartość najlepszego rozwiązania w danej iteracji (10).}
 \label{temp-10}
 \end{figure}
 \subsubsection{Uwagi} 
 Jak widać po rysunku \ref{temp-10}, algorytm dla zlecenia
 zawierającego tylko zabiegi tego samego typu, nie znalazł lepszego rozwiązania
-niż rozwiązanie początkowe, ponieważ rozwiązanie początkowe już wstawiło każde zabieg na osobny dzień.
+niż rozwiązanie początkowe, ponieważ rozwiązanie początkowe już wstawiło każde zabieg na osobny dzień, tak blisko początku dnia jak to tylko możliwe, co dobrze spełnia zdefiniowane preferencje.
 
 \newpage
-\subsection{Szczegóły badania zlecenia 30 elementowego}
+\subsection{Szczegóły badania na zleceniu 30 elementowym}
 \begin{table}[H]
 \begin{tabular}{ l l }
 	Średni czas działania: & 5.0356 (s) \\
@@ -177,7 +176,7 @@ MAGNETRONIK & 10 \\
 Laser punktowy & 10 \\
 \hline
 \end{tabularx}
-\caption{Szczegóły testowanego zlecenia 78636}
+\caption{Szczegóły badanego zlecenia 30 elementowego}
 \end{table}
 
 \begin{figure}[H]
@@ -189,17 +188,17 @@ Laser punktowy & 10 \\
 
 \end{tabularx}
 \end{table}
-\caption{Wykres spadku temperatury dla instancji 30 elementowych (Całkowity - lewy i zbliżony - prawy)}
+\caption{Spadek temperatury dla instancji 30 elementowych.}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{gfx/test-plots/78636_best_all}
-\caption{Znormalizowana wartość najlepszego rozwiązania w danej iteracji dla instancji 30 elementowej. Średnia z 10 uruchomień.}
+\caption{Znormalizowana wartość najlepszego rozwiązania w danej iteracji (30).}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=14cm]{gfx/test-plots/78636_deviation}
-\caption{Odchylenie między wartością najlepszego znalezionego rozwiązania w danej iteracji i danym zakresie dla instancji 30 elementowej}
+\caption{Odchylenie między wartościami najlepszego rozwiązania w danej iteracji (30).}
 \end{figure}
 
 %\begin{figure}[H]
@@ -231,6 +230,10 @@ Laser punktowy & 10 \\
 \hline
 155280 & 40 & 0.4335 & 0.3032 & 0.1417 & 0.0721 & 0.0673 & 1.0177 & 6.0482 \\
 \hline
+178354 & 50 & 0.4000 & 0.9004 & 0.0468 & 0.0198 & 0.2201 & 1.5870 & 5.3316 \\
+\hline
+180837 & 50 & 0.3900 & 0.2480 & 0.1138 & 0.0733 & 0.0990 & 0.9241 & 6.0106 \\
+\hline
 80962 & 60 & 0.4150 & 0.4923 & 0.1114 & 0.0774 & 0.0769 & 1.1731 & 7.8611 \\
 \hline
 84035 & 60 & 0.3865 & 0.4723 & 0.1203 & 0.0799 & 0.0748 & 1.1338 & 7.2471 \\
@@ -239,14 +242,19 @@ Laser punktowy & 10 \\
 \hline
 274804 & 70 & 0.4204 & 0.8417 & 0.0471 & 0.0399 & 0.2246 & 1.5738 & 6.6644 \\
 \hline
-178354 & 50 & 0.4000 & 0.9004 & 0.0468 & 0.0198 & 0.2201 & 1.5870 & 5.3316 \\
-\hline
-180837 & 50 & 0.3900 & 0.2480 & 0.1138 & 0.0733 & 0.0990 & 0.9241 & 6.0106 \\
-\hline
 \end{tabularx}
-\caption{Wyniki badań dla wszystkich badanych instancji}
+\caption{Podsumowanie wyników badań}
 \end{table}
-Jak widać na powyższej tabeli, czas działania algorytmu zwiększa się wraz z
-rozmiarem instancji testowej. Dzieje się tak dlatego, że wartość określająca
-maksymalną ilość kroków bez poprawy jest zwiększa dla większych instancji, przez
-co algorytm wykonuje więcej iteracji.
+Algorytm najlepiej spełnił preferencję $v_5$ i $v_4$. Największą trudność
+algorytmowi sprawiło spełnienie preferencji $v_1$, której wartość jest tym mniejsza im
+mniejsza jest odległość od daty początkowej. Nietrudno zauważyć, że algorytm
+większy nacisk kładł na znalezienie rozwiązania, które nie wymaga na pacjencie
+przebywania długo w klinice niż na takie, które jest możliwie jak najwcześniej.
+Jest to zachowanie pożądane.
+
+Zlecenie o tym samym rozmiarze nie zawsze są równie skutecznie rozwiązywane. Algorytm bardzo różnie ocenił
+zlecenia 50 elementowe, szczególnie duża różnica jest widoczna w warunku $v_2$. Różnice w wartościowaniu wynikają, z różnej
+kompozycji tych zleceń.
+
+Średnia wartość nawet dużych instancji jest niewielka bo wynosi 1.5738, co
+oznacza, że algorytm dobrze poradził sobie z rozwiązywaniem badanych instancji.
